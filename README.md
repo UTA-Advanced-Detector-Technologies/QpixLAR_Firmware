@@ -1,3 +1,3 @@
-# QpixLAR Software
+# QpixLAR Firmware
 
-houses python-based Qt interface to the QpixLAR carrier boards.
+houses hdl and firmware targeted to a zynq 7020 used in the QpixLAR experiment.
