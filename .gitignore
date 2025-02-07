@@ -1,0 +1,22 @@
+# tracking vivado srcs, xsa, and bit file
+vivado/*
+!vivado/qpixlar_carrier
+vivado/qpixlar_carrier/*
+!vivado/qpixlar_carrier/qpixlar_carrier.srcs
+!vivado/qpixlar_carrier/qpixlar_carrier.xpr
+!vivado/qpixlar_carrier/*.xsa
+
+# tracking platform and application projects
+vitis_workspace/*
+# c code
+!vitis_workspace/qpix_carrier_ctrl
+vitis_workspace/qpix_carrier_ctrl/*
+!vitis_workspace/qpix_carrier_ctrl/src/
+vitis_workspace/qpix_carrier_ctrl/src/*
+!vitis_workspace/qpix_carrier_ctrl/src/*h
+!vitis_workspace/qpix_carrier_ctrl/src/*c
+!vitis_workspace/qpix_carrier_ctrl/src/*ld
+# platform project
+!vitis_workspace/qpixlar_carrier
+vitis_workspace/qpixlar_carrier/*
+!vitis_workspace/qpixlar_carrier/hw
