@@ -19,6 +19,14 @@ int main()
     // configure I2C master
     SetupIIC();
 
+    // test send
+    u8 SendBuffer1[] = {0x03, 0x2f, 0x55};
+    IicSend(SendBuffer1, sizeof(SendBuffer1), 0x0c);
+
+    // test send
+    u8 SendBuffer2[] = {0x03, 0x2f, 0x55};
+    IicSend(SendBuffer2, sizeof(SendBuffer2), 0x0d);
+
     // opens the TCP socket and begins DHCP, if BSP is configured to do so
     SetupEthernet();
 

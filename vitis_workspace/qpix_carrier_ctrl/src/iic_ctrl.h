@@ -2,10 +2,10 @@
 #include "xscugic.h"
 #include "xparameters.h"
 
-#define XIICPS_BASEADDRESS	XPAR_XIICPS_0_BASEADDR
-#define IIC_DEVICE_ID		XPAR_XIICPS_0_DEVICE_ID
+#define XIICPS_BASEADDRESS	XPAR_XIICPS_1_BASEADDR
+#define IIC_DEVICE_ID		XPAR_XIICPS_1_DEVICE_ID
 #define INTC_DEVICE_ID		XPAR_SCUGIC_SINGLE_DEVICE_ID
-#define IIC_INT_VEC_ID		XPAR_XIICPS_0_INTR
+#define IIC_INT_VEC_ID		XPAR_XIICPS_1_INTR
 
 /*
  * The slave address to send to and receive from.
