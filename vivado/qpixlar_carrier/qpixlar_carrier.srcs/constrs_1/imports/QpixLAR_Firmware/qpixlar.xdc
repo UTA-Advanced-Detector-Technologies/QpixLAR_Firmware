@@ -125,3 +125,97 @@ set_property CONFIG_VOLTAGE 3.3 [current_design]
 
 # #set_property PULLUP true [get_ports i2c0_scl_io]
 # #set_property PULLUP true [get_ports i2c0_sda_io]
+
+# from Kevin's Carrier Board Schematic
+# set_property PACKAGE_PIN U7 [get_ports Clk1_Out]
+# set_property PACKAGE_PIN V7 [get_ports Pad1_ClkbSHDN]
+# set_property PACKAGE_PIN T9 [get_ports Clk2_Out]
+# set_property PACKAGE_PIN U10 [get_ports Pad2_ClkbSHDN]
+
+# set_property PACKAGE_PIN Y7 [get_ports ClkSyncOut]
+# set_property PACKAGE_PIN Y6 [get_ports ClkSyncIn]
+# set_property PACKAGE_PIN V8 [get_ports fPAD2_CLKIN2]
+# set_property PACKAGE_PIN W8 [get_ports fPAD2_CTRL]
+
+# set_property PACKAGE_PIN T12 [get_ports fPAD2_DATAOUT2]
+# set_property PACKAGE_PIN U12 [get_ports fPAD2_DATAIN]
+# set_property PACKAGE_PIN V12 [get_ports fPAD2_DeltaT]
+# set_property PACKAGE_PIN W13 [get_ports fPAD2_EXT_POR]
+
+# set_property PACKAGE_PIN P14 [get_ports fPAD2_LOADDATA]
+# set_property PACKAGE_PIN R14 [get_ports fPAD2_SEL_DEF_DATA]
+# set_property PACKAGE_PIN W14 [get_ports fPAD2_SER_OUT_CNT]
+# set_property PACKAGE_PIN Y14 [get_ports fPAD2_CLKIN]
+# set_property PACKAGE_PIN U14 [get_ports fPAD2_CAL_CTRL]
+# set_property PACKAGE_PIN U15 [get_ports fPAD2_DATAOUT1]
+
+# set_property PACKAGE_PIN Y9 [get_ports fPAD1_SEL_DEF_DATA]
+# set_property PACKAGE_PIN Y8 [get_ports fPAD1_SER_OUT_CNT]
+# set_property PACKAGE_PIN V11 [get_ports fPAD1_CAL_CTRL]
+# set_property PACKAGE_PIN V10 [get_ports fPAD1_CLKIN]
+
+# set_property PACKAGE_PIN T11 [get_ports fPAD1_DATAOUT2]
+# set_property PACKAGE_PIN T10 [get_ports fPAD1_CLKIN2]
+# set_property PACKAGE_PIN U13 [get_ports fPAD1_CTRL]
+# set_property PACKAGE_PIN V13 [get_ports fPAD1_DATAOUT1]
+
+# set_property PACKAGE_PIN T14 [get_ports fPAD1_DATAIN]
+# set_property PACKAGE_PIN T15 [get_ports fPAD1_EXT_POR]
+# set_property PACKAGE_PIN Y16 [get_ports fPAD1_DeltaT]
+# set_property PACKAGE_PIN Y17 [get_ports fPAD1_LOADDATA]
+
+# set_property PACKAGE_PIN C20 [get_ports Rst1_out]
+# set_property PACKAGE_PIN B20 [get_ports PAD2_STARTUP]
+# set_property PACKAGE_PIN E17 [get_ports Rst2_out]
+
+# set_property PACKAGE_PIN E18 [get_ports FPGA_ID_0]
+# set_property PACKAGE_PIN E19 [get_ports FPGA_ID_1]
+# set_property PACKAGE_PIN M19 [get_ports SDN_9]
+
+# set_property PACKAGE_PIN L19 [get_ports Q_9]
+# set_property PACKAGE_PIN L20 [get_ports Q_8]
+# set_property PACKAGE_PIN L16 [get_ports SDN_8]
+
+# set_property PACKAGE_PIN H16 [get_ports SDN_10]
+# set_property PACKAGE_PIN H17 [get_ports SDN_15]
+# set_property PACKAGE_PIN F19 [get_ports Q_15]
+# set_property PACKAGE_PIN F20 [get_ports SDN_13]
+
+# set_property PACKAGE_PIN J20 [get_ports Q_13]
+# set_property PACKAGE_PIN H20 [get_ports SDN_14]
+# set_property PACKAGE_PIN H15 [get_ports Q_14]
+# set_property PACKAGE_PIN G15 [get_ports SDN_12]
+
+# set_property PACKAGE_PIN N15 [get_ports Q_12]
+# set_property PACKAGE_PIN N16 [get_ports SDN_3]
+# set_property PACKAGE_PIN M14 [get_ports Q_3]
+# set_property PACKAGE_PIN M15 [get_ports SDN_1]
+
+# set_property PACKAGE_PIN B19 [get_ports PAD1_STARTUP]
+# set_property PACKAGE_PIN A20 [get_ports CS2_bar]
+# set_property PACKAGE_PIN D19 [get_ports CS1_bar]
+# set_property PACKAGE_PIN D20 [get_ports LDAC_bar]
+
+# set_property PACKAGE_PIN F16 [get_ports ExternalClkEnable]
+# set_property PACKAGE_PIN F17 [get_ports SCK]
+# set_property PACKAGE_PIN M17 [get_ports SDI]
+
+# set_property PACKAGE_PIN K19 [get_ports SDN_11]
+# set_property PACKAGE_PIN J19 [get_ports Q_11]
+# set_property PACKAGE_PIN K17 [get_ports SDN_4]
+# set_property PACKAGE_PIN K18 [get_ports Q_4]
+
+# set_property PACKAGE_PIN J18 [get_ports Q_10]
+# set_property PACKAGE_PIN H18 [get_ports Q_6]
+# set_property PACKAGE_PIN G17 [get_ports SDN_6]
+# set_property PACKAGE_PIN G18 [get_ports Q_5]
+
+# set_property PACKAGE_PIN G19 [get_ports SDN_5]
+# set_property PACKAGE_PIN G20 [get_ports Q_7]
+# set_property PACKAGE_PIN K14 [get_ports SDN_7]
+# set_property PACKAGE_PIN J14 [get_ports Q_0]
+
+# set_property PACKAGE_PIN L14 [get_ports SDN_0]
+# set_property PACKAGE_PIN L15 [get_ports Q_2]
+# set_property PACKAGE_PIN K16 [get_ports SDN_2]
+# set_property PACKAGE_PIN J16 [get_ports Q_1]
