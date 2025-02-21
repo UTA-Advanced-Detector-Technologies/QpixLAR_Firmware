@@ -20,5 +20,3 @@ vitis_workspace/qpix_carrier_ctrl/src/*
 !vitis_workspace/qpixlar_carrier
 vitis_workspace/qpixlar_carrier/*
 !vitis_workspace/qpixlar_carrier/hw
-
-hdl/qpix_firmware_src

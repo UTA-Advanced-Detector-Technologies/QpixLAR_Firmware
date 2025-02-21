@@ -34,6 +34,16 @@ entity TransactRegiMap is
       -- 
       -- Interface pins
       -- 
+      reg_0       : out std_logic_vector(31 downto 0);
+      reg_1       : out std_logic_vector(31 downto 0);
+      reg_2       : out std_logic_vector(31 downto 0);
+      reg_3       : out std_logic_vector(31 downto 0);
+      reg_4       : out std_logic_vector(31 downto 0);
+      reg_5       : out std_logic_vector(31 downto 0);
+      reg_6       : out std_logic_vector(31 downto 0);
+      reg_7       : out std_logic_vector(31 downto 0);
+      reg_8       : out std_logic_vector(31 downto 0);
+      reg_9       : out std_logic_vector(31 downto 0);
 
       -- interface to AXI slave module
       addr        : in  std_logic_vector(31 downto 0);
@@ -50,7 +60,16 @@ architecture behav of TransactRegiMap is
    -- select addr subspace
    signal a_reg_addr   : std_logic_vector(15 downto 0)  := x"0000";
    signal scratch_word : std_logic_vector(31 downto 0) := x"05a7cafe";
-
+   signal s_reg_0      : std_logic_vector(31 downto 0);
+   signal s_reg_1      : std_logic_vector(31 downto 0);
+   signal s_reg_2      : std_logic_vector(31 downto 0);
+   signal s_reg_3      : std_logic_vector(31 downto 0);
+   signal s_reg_4      : std_logic_vector(31 downto 0);
+   signal s_reg_5      : std_logic_vector(31 downto 0);
+   signal s_reg_6      : std_logic_vector(31 downto 0);
+   signal s_reg_7      : std_logic_vector(31 downto 0);
+   signal s_reg_8      : std_logic_vector(31 downto 0);
+   signal s_reg_9      : std_logic_vector(31 downto 0);
 
 begin
 
@@ -78,6 +97,75 @@ begin
                   rdata <= scratch_word;
                end if;
 
+            when x"0004" =>
+               if wen = '1' and req = '1' then
+                  s_reg_0 <= wdata;
+               else
+                  rdata <= s_reg_0;
+               end if;
+
+            when x"0008" =>
+               if wen = '1' and req = '1' then
+                  s_reg_1 <= wdata;
+               else
+                  rdata <= s_reg_1;
+               end if;
+
+            when x"000C" =>
+               if wen = '1' and req = '1' then
+                  s_reg_2 <= wdata;
+               else
+                  rdata <= s_reg_1;
+               end if;
+
+            when x"0010" =>
+               if wen = '1' and req = '1' then
+                  s_reg_3 <= wdata;
+               else
+                  rdata <= s_reg_3;
+               end if;
+
+            when x"0014" =>
+               if wen = '1' and req = '1' then
+                  s_reg_4 <= wdata;
+               else
+                  rdata <= s_reg_4;
+               end if;
+
+            when x"0018" =>
+               if wen = '1' and req = '1' then
+                  s_reg_5 <= wdata;
+               else
+                  rdata <= s_reg_5;
+               end if;
+
+            when x"001C" =>
+               if wen = '1' and req = '1' then
+                  s_reg_6 <= wdata;
+               else
+                  rdata <= s_reg_6;
+               end if;
+
+            when x"0020" =>
+               if wen = '1' and req = '1' then
+                  s_reg_7 <= wdata;
+               else
+                  rdata <= s_reg_7;
+               end if;
+
+            when x"0024" =>
+               if wen = '1' and req = '1' then
+                  s_reg_8 <= wdata;
+               else
+                  rdata <= s_reg_8;
+               end if;
+
+            when x"0028" =>
+               if wen = '1' and req = '1' then
+                  s_reg_9 <= wdata;
+               else
+                  rdata <= s_reg_9;
+               end if;
 
             when others =>
                rdata <= x"aBAD_ADD0";
