@@ -1,13 +1,14 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x2674B95DE1E47622",
+      "boundary_crc": "0x54B42A724CAF39C9",
       "device": "xc7z020clg400-1",
       "gen_directory": "../../../../qpixlar_carrier.gen/sources_1/bd/design_1",
       "name": "design_1",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "None",
-      "tool_version": "2024.1"
+      "tool_version": "2024.1",
+      "validated": "true"
     },
     "design_tree": {
       "processing_system7_0": "",
@@ -40,7 +41,8 @@
       "axis_data_fifo_0": "",
       "fifo_generator_0": "",
       "qpix_carrier_data_ct_0": "",
-      "qpix_carrier_fifo_ct_0": ""
+      "qpix_carrier_fifo_ct_0": "",
+      "xlconstant_0": ""
     },
     "interface_ports": {
       "DDR": {
@@ -236,7 +238,29 @@
       },
       "opad_CLKin": {
         "type": "clk",
-        "direction": "O"
+        "direction": "O",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "design_1_qpix_reg_rtl_0_0_opad_CLKin",
+            "value_src": "default_prop"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          }
+        }
       },
       "opad_CLKin2": {
         "direction": "O"
@@ -267,11 +291,55 @@
       },
       "opad_CLK": {
         "type": "clk",
-        "direction": "O"
+        "direction": "O",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "design_1_qpix_reg_rtl_0_0_opad_CLK",
+            "value_src": "default_prop"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          }
+        }
       },
       "opad2_CLKin": {
         "type": "clk",
-        "direction": "O"
+        "direction": "O",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "design_1_qpix_reg_rtl_0_0_opad2_CLKin",
+            "value_src": "default_prop"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          }
+        }
       },
       "opad2_CLKin2": {
         "direction": "O"
@@ -302,10 +370,37 @@
       },
       "opad2_CLK": {
         "type": "clk",
-        "direction": "O"
-      },
-      "SHDN_0": {
         "direction": "O",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "design_1_qpix_reg_rtl_0_0_opad2_CLK",
+            "value_src": "default_prop"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          }
+        }
+      },
+      "SHDN": {
+        "direction": "O",
+        "left": "15",
+        "right": "0"
+      },
+      "Q": {
+        "direction": "I",
         "left": "15",
         "right": "0"
       }
@@ -553,10 +648,10 @@
             "value": "IO PLL"
           },
           "PCW_FCLK_CLK0_BUF": {
-            "value": "TRUE"
+            "value": "FALSE"
           },
           "PCW_FCLK_CLK1_BUF": {
-            "value": "TRUE"
+            "value": "FALSE"
           },
           "PCW_FPGA0_PERIPHERAL_FREQMHZ": {
             "value": "200"
@@ -565,7 +660,7 @@
             "value": "50"
           },
           "PCW_FPGA2_PERIPHERAL_FREQMHZ": {
-            "value": "50"
+            "value": "125"
           },
           "PCW_FPGA3_PERIPHERAL_FREQMHZ": {
             "value": "50"
@@ -1913,7 +2008,7 @@
                 "value_src": "constant"
               },
               "FREQ_HZ": {
-                "value": "200000000",
+                "value": "50000000",
                 "value_src": "user_prop"
               },
               "ID_WIDTH": {
@@ -2001,7 +2096,7 @@
                 "value_src": "auto"
               },
               "CLK_DOMAIN": {
-                "value": "design_1_processing_system7_0_0_FCLK_CLK0",
+                "value": "design_1_processing_system7_0_0_FCLK_CLK1",
                 "value_src": "default_prop"
               }
             },
@@ -2118,11 +2213,11 @@
                 "value_src": "constant"
               },
               "FREQ_HZ": {
-                "value": "200000000",
+                "value": "50000000",
                 "value_src": "user_prop"
               },
               "CLK_DOMAIN": {
-                "value": "design_1_processing_system7_0_0_FCLK_CLK0",
+                "value": "design_1_processing_system7_0_0_FCLK_CLK1",
                 "value_src": "default_prop"
               }
             }
@@ -2177,7 +2272,17 @@
         "ports": {
           "clk": {
             "type": "clk",
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "user_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "design_1_processing_system7_0_0_FCLK_CLK1",
+                "value_src": "default_prop"
+              }
+            }
           },
           "reg_0": {
             "direction": "O",
@@ -2232,6 +2337,16 @@
           "SHDN": {
             "direction": "O",
             "left": "15",
+            "right": "0"
+          },
+          "QpixMask": {
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "PacketLength": {
+            "direction": "O",
+            "left": "31",
             "right": "0"
           },
           "addr": {
@@ -2833,11 +2948,11 @@
             "direction": "I",
             "parameters": {
               "FREQ_HZ": {
-                "value": "200000000",
+                "value": "50000000",
                 "value_src": "user_prop"
               },
               "CLK_DOMAIN": {
-                "value": "design_1_processing_system7_0_0_FCLK_CLK0",
+                "value": "design_1_processing_system7_0_0_FCLK_CLK1",
                 "value_src": "default_prop"
               }
             }
@@ -2846,7 +2961,7 @@
             "direction": "I",
             "parameters": {
               "FREQ_HZ": {
-                "value": "50000000",
+                "value": "200000000",
                 "value_src": "user_prop"
               },
               "PHASE": {
@@ -2854,7 +2969,7 @@
                 "value_src": "default_prop"
               },
               "CLK_DOMAIN": {
-                "value": "design_1_processing_system7_0_0_FCLK_CLK1",
+                "value": "design_1_processing_system7_0_0_FCLK_CLK0",
                 "value_src": "default_prop"
               }
             }
@@ -3028,6 +3143,9 @@
         "xci_path": "ip\\design_1_fifo_generator_0_0\\design_1_fifo_generator_0_0.xci",
         "inst_hier_path": "fifo_generator_0",
         "parameters": {
+          "Fifo_Implementation": {
+            "value": "Independent_Clocks_Builtin_FIFO"
+          },
           "Input_Data_Width": {
             "value": "80"
           },
@@ -3061,6 +3179,14 @@
               "ASSOCIATED_RESET": {
                 "value": "rst",
                 "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "200000000",
+                "value_src": "user_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "design_1_processing_system7_0_0_FCLK_CLK0",
+                "value_src": "default_prop"
               }
             }
           },
@@ -3084,11 +3210,6 @@
           "qpixMask": {
             "direction": "I",
             "left": "15",
-            "right": "0"
-          },
-          "qpixDiv": {
-            "direction": "I",
-            "left": "63",
             "right": "0"
           }
         }
@@ -3141,6 +3262,14 @@
               "HAS_TLAST": {
                 "value": "1",
                 "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "user_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "design_1_processing_system7_0_0_FCLK_CLK1",
+                "value_src": "default_prop"
               }
             },
             "port_maps": {
@@ -3177,6 +3306,14 @@
               "ASSOCIATED_RESET": {
                 "value": "rst",
                 "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "user_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "design_1_processing_system7_0_0_FCLK_CLK1",
+                "value_src": "default_prop"
               }
             }
           },
@@ -3198,16 +3335,22 @@
           "fifo_empty": {
             "direction": "I"
           },
-          "qpixEnable": {
-            "direction": "I"
-          },
-          "qpixForce": {
-            "direction": "I"
-          },
           "qpixPacketLength": {
             "direction": "I",
             "left": "31",
             "right": "0"
+          }
+        }
+      },
+      "xlconstant_0": {
+        "vlnv": "xilinx.com:ip:xlconstant:1.1",
+        "ip_revision": "9",
+        "xci_name": "design_1_xlconstant_0_0",
+        "xci_path": "ip\\design_1_xlconstant_0_0\\design_1_xlconstant_0_0.xci",
+        "inst_hier_path": "xlconstant_0",
+        "parameters": {
+          "CONST_VAL": {
+            "value": "0"
           }
         }
       }
@@ -3275,32 +3418,6 @@
       }
     },
     "nets": {
-      "ACLK_1": {
-        "ports": [
-          "processing_system7_0/FCLK_CLK0",
-          "axi_mem_intercon/ACLK",
-          "axi_mem_intercon/S00_ACLK",
-          "axi_mem_intercon/M00_ACLK",
-          "qpix_reg_rtl_0/clk",
-          "AxiLiteSlaveSimple_0/axi_aclk",
-          "axi_interconnect_0/ACLK",
-          "axi_interconnect_0/S00_ACLK",
-          "axi_interconnect_0/M00_ACLK",
-          "axi_interconnect_0/M01_ACLK",
-          "axi_dma_0/s_axi_lite_aclk",
-          "axi_dma_0/m_axi_mm2s_aclk",
-          "axi_dma_0/m_axi_s2mm_aclk",
-          "proc_sys_reset_0/slowest_sync_clk",
-          "axi_mem_intercon/S01_ACLK",
-          "processing_system7_0/S_AXI_HP0_ACLK",
-          "processing_system7_0/M_AXI_GP0_ACLK",
-          "axis_data_fifo_0/s_axis_aclk",
-          "TransactRegiMap_0/clk",
-          "qpix_carrier_fifo_ct_0/clk",
-          "fifo_generator_0/clk",
-          "qpix_carrier_data_ct_0/clk"
-        ]
-      },
       "AxiLiteSlaveSimple_0_addr": {
         "ports": [
           "AxiLiteSlaveSimple_0/addr",
@@ -3325,6 +3442,12 @@
           "TransactRegiMap_0/wen"
         ]
       },
+      "Q_0_1": {
+        "ports": [
+          "Q",
+          "qpix_carrier_data_ct_0/Q"
+        ]
+      },
       "S00_ARESETN_1": {
         "ports": [
           "proc_sys_reset_0/peripheral_aresetn",
@@ -3338,15 +3461,25 @@
           "axi_mem_intercon/ARESETN",
           "AxiLiteSlaveSimple_0/axi_aresetn",
           "axi_mem_intercon/S01_ARESETN",
-          "axis_data_fifo_0/s_axis_aresetn",
-          "qpix_carrier_fifo_ct_0/rst",
-          "qpix_carrier_data_ct_0/rst"
+          "axis_data_fifo_0/s_axis_aresetn"
+        ]
+      },
+      "TransactRegiMap_0_PacketLength": {
+        "ports": [
+          "TransactRegiMap_0/PacketLength",
+          "qpix_carrier_fifo_ct_0/qpixPacketLength"
+        ]
+      },
+      "TransactRegiMap_0_QpixMask": {
+        "ports": [
+          "TransactRegiMap_0/QpixMask",
+          "qpix_carrier_data_ct_0/qpixMask"
         ]
       },
       "TransactRegiMap_0_SHDN": {
         "ports": [
           "TransactRegiMap_0/SHDN",
-          "SHDN_0"
+          "SHDN"
         ]
       },
       "TransactRegiMap_0_ack": {
@@ -3445,11 +3578,6 @@
           "qpix_carrier_fifo_ct_0/fifo_empty"
         ]
       },
-      "fifo_generator_0_full": {
-        "ports": [
-          "fifo_generator_0/full"
-        ]
-      },
       "fifo_generator_0_valid": {
         "ports": [
           "fifo_generator_0/valid",
@@ -3492,10 +3620,37 @@
           "qpix_reg_rtl_0/opad_deltaT"
         ]
       },
+      "processing_system7_0_FCLK_CLK0": {
+        "ports": [
+          "processing_system7_0/FCLK_CLK0",
+          "qpix_reg_rtl_0/clk200",
+          "qpix_carrier_data_ct_0/clk",
+          "fifo_generator_0/wr_clk"
+        ]
+      },
       "processing_system7_0_FCLK_CLK1": {
         "ports": [
           "processing_system7_0/FCLK_CLK1",
-          "qpix_reg_rtl_0/clk200"
+          "qpix_reg_rtl_0/clk",
+          "axi_mem_intercon/ACLK",
+          "axi_mem_intercon/S00_ACLK",
+          "axi_mem_intercon/M00_ACLK",
+          "axi_mem_intercon/S01_ACLK",
+          "axi_interconnect_0/ACLK",
+          "axi_interconnect_0/S00_ACLK",
+          "axi_interconnect_0/M00_ACLK",
+          "axi_interconnect_0/M01_ACLK",
+          "axi_dma_0/s_axi_lite_aclk",
+          "axi_dma_0/m_axi_mm2s_aclk",
+          "axi_dma_0/m_axi_s2mm_aclk",
+          "AxiLiteSlaveSimple_0/axi_aclk",
+          "axis_data_fifo_0/s_axis_aclk",
+          "qpix_carrier_fifo_ct_0/clk",
+          "fifo_generator_0/rd_clk",
+          "TransactRegiMap_0/clk",
+          "proc_sys_reset_0/slowest_sync_clk",
+          "processing_system7_0/M_AXI_GP0_ACLK",
+          "processing_system7_0/S_AXI_HP0_ACLK"
         ]
       },
       "processing_system7_0_FCLK_RESET0_N": {
@@ -3664,6 +3819,14 @@
         "ports": [
           "xlconcat_0/dout",
           "processing_system7_0/IRQ_F2P"
+        ]
+      },
+      "xlconstant_0_dout": {
+        "ports": [
+          "xlconstant_0/dout",
+          "qpix_carrier_fifo_ct_0/rst",
+          "qpix_carrier_data_ct_0/rst",
+          "fifo_generator_0/rst"
         ]
       }
     },

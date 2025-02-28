@@ -27,8 +27,6 @@ use ieee.numeric_std.all;
 use ieee.std_logic_unsigned.all;
 
 library work;
-use work.QpixPkg.all;
-use work.QpixProtoPkg.all;
 
 -- fancy sl / slv alias'
 use work.UtilityPkg.all;

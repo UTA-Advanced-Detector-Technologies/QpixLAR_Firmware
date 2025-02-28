@@ -1,14 +1,16 @@
-# Create clocks
-# create_clock -period 5.000 -name OSC_200MHz [get_ports OSC_200MHz]
-
-set_property CFGBVS VCCO [current_design]
-set_property CONFIG_VOLTAGE 3.3 [current_design]
-
 # reference from UPenn qpix firmware
 # # From Nandor's schematic 18-Feb-2023
 # set_property PACKAGE_PIN T10 [get_ports FPGA_I2C_sda_io]
 # set_property PACKAGE_PIN U13 [get_ports FPGA_I2C_scl_io]
 # set_property PACKAGE_PIN V13 [get_ports TRIGGER]
+
+set_property CFGBVS VCCO [current_design]
+set_property CONFIG_VOLTAGE 3.3 [current_design]
+
+# Create clocks
+# create_clock -period 5.000 -name clk_200 [get_ports clk_200]
+# set_property PACKAGE_PIN H16 [get_ports clk_200]
+# set_property IOSTANDARD LVCMOS33 [get_ports clk_200]
 
 ## ext_POR
 set_property PACKAGE_PIN T15 [get_ports opad_Ext_POR]
@@ -81,7 +83,6 @@ set_property IOSTANDARD LVCMOS33 [get_ports opad2_DataOut1]
 set_property IOSTANDARD LVCMOS33 [get_ports opad2_DataOut2]
 set_property IOSTANDARD LVCMOS33 [get_ports opad2_deltaT]
 
-# set_property PACKAGE_PIN H16 [get_ports OSC_200MHz]
 # #set_property PACKAGE_PIN H17 [get_ports ]
 # # set_property PACKAGE_PIN J18 [get_ports oTP1]
 # # set_property PACKAGE_PIN H18 [get_ports oTP2]

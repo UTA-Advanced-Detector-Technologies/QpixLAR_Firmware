@@ -45,8 +45,9 @@ entity TransactRegiMap is
       -- 
       -- Qpix Carrier Specific registers
       -- 
-      SHDN        : out std_logic_vector(15 downto 0);
-      QpixMask    : out std_logic_vector(15 downto 0);
+      SHDN         : out std_logic_vector(15 downto 0);
+      QpixMask     : out std_logic_vector(15 downto 0);
+      PacketLength : out std_logic_vector(31 downto 0);
 
       -- interface to AXI slave module
       addr        : in  std_logic_vector(31 downto 0);
@@ -75,8 +76,9 @@ architecture behav of TransactRegiMap is
    signal s_reg_9      : std_logic_vector(31 downto 0);
 
    -- qpix carrier specific
-   signal s_SHDN       : std_logic_vector(15 downto 0);
-   signal s_QpixMask   : std_logic_vector(15 downto 0);
+   signal s_SHDN         : std_logic_vector(15 downto 0);
+   signal s_QpixMask     : std_logic_vector(15 downto 0);
+   signal s_PacketLength : std_logic_vector(31 downto 0);
 
 begin
 
@@ -103,8 +105,9 @@ begin
          reg_9 <= s_reg_9;
 
          -- carrier specific
-         SHDN <= s_SHDN;
-         s_QpixMask <= QpixMask;
+         SHDN         <= s_SHDN;
+         QpixMask     <= s_QpixMask;
+         PacketLength <= s_PacketLength;
 
          -- reg mapping
          case a_reg_addr is
@@ -190,16 +193,23 @@ begin
             -- control register offsets
             when x"4000" =>
                if wen = '1' and req = '1' then
-                  s_SHDN <= wdata;
+                  s_SHDN <= wdata(15 downto 0);
                else
-                  rdata <= s_SHDN;
+                  rdata(15 downto 0) <= s_SHDN;
                end if;
 
             when x"4004" =>
                if wen = '1' and req = '1' then
-                  s_QpixMask <= wdata;
+                  s_QpixMask <= wdata(15 downto 0);
                else
-                  rdata <= s_QpixMask;
+                  rdata(15 downto 0) <= s_QpixMask;
+               end if;
+
+            when x"4008" =>
+               if wen = '1' and req = '1' then
+                  s_PacketLength <= wdata;
+               else
+                  rdata <= s_PacketLength;
                end if;
 
             when others =>
