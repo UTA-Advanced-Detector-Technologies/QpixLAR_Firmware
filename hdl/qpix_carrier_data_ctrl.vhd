@@ -45,8 +45,7 @@ port (
   qpixCtrlOut      : out std_logic_vector(N_QPIX_PORTS + TIMESTAMP_BITS - 1 downto 0);
   qpixCtrlOutValid : out std_logic;
   -- Register Config ports
-  qpixMask         : in  std_logic_vector(N_QPIX_PORTS-1 downto 0);
-  qpixDiv          : in  std_logic_vector(TIMESTAMP_BITS-1 downto 0)
+  qpixMask         : in  std_logic_vector(N_QPIX_PORTS-1 downto 0)
   );
   
 end qpix_carrier_data_ctrl;
@@ -73,7 +72,7 @@ begin  -- architecture qpix_carrier_data_ctrl
          if rst = '1' then
             counter <= (others => '0');
             local_cnt := (others => '0');
-         elsif local_cnt >= unsigned(qpixDiv) then
+         else 
             counter <= counter + 1;
             local_cnt := (others => '0');
          end if;

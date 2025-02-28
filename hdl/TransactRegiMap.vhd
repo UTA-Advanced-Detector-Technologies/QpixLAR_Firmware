@@ -46,6 +46,7 @@ entity TransactRegiMap is
       -- Qpix Carrier Specific registers
       -- 
       SHDN        : out std_logic_vector(15 downto 0);
+      QpixMask    : out std_logic_vector(15 downto 0);
 
       -- interface to AXI slave module
       addr        : in  std_logic_vector(31 downto 0);
@@ -73,8 +74,10 @@ architecture behav of TransactRegiMap is
    signal s_reg_8      : std_logic_vector(31 downto 0);
    signal s_reg_9      : std_logic_vector(31 downto 0);
 
-   -- carrier specific
+   -- qpix carrier specific
    signal s_SHDN       : std_logic_vector(15 downto 0);
+   signal s_QpixMask   : std_logic_vector(15 downto 0);
+
 begin
 
    a_reg_addr <= addr(15 downto 0);
@@ -101,6 +104,7 @@ begin
 
          -- carrier specific
          SHDN <= s_SHDN;
+         s_QpixMask <= QpixMask;
 
          -- reg mapping
          case a_reg_addr is
@@ -191,6 +195,12 @@ begin
                   rdata <= s_SHDN;
                end if;
 
+            when x"4004" =>
+               if wen = '1' and req = '1' then
+                  s_QpixMask <= wdata;
+               else
+                  rdata <= s_QpixMask;
+               end if;
 
             when others =>
                rdata <= x"aBAD_ADD0";

@@ -42,11 +42,8 @@ port (
     qpix_fifo_ren : out std_logic;
     fifo_valid    : in  std_logic;
     fifo_empty    : in  std_logic;
-    fifo_full     : in  std_logic;
 
     -- register connections
-    qpixEnable       : in std_logic;
-    qpixForce        : in std_logic;
     qpixPacketLength : in std_logic_vector(31 downto 0);
 
     -- AXI4-Stream Data Fifo Ports
@@ -73,7 +70,6 @@ architecture Behavioral of qpix_carrier_fifo_ctrl is
     -- Constants
     constant AXI_OKAY     : std_logic_vector(1 downto 0)  := "00";
     constant AXI_DECERR   : std_logic_vector(1 downto 0)  := "11";
-    constant FORCE_PACKET : std_logic_vector(31 downto 0) := x"a7007e51";
 
     -- write data channel
     signal s_axi_tdata       : std_logic_vector(31 downto 0);
@@ -105,10 +101,9 @@ begin  -- architecture Behavioral
     ----------------------------------------------------------------------------
     -- Write-transaction FSM
     write_fsm : process(clk, axi_aresetn, s_state_r, fifo_valid, s_axi_tready_r,
-                        qpixEnable, fifo_empty) is
+                        fifo_empty) is
         variable v_word_phase : integer := 0;
         variable newWord      : std_logic             := '0';
-        variable forceLast    : std_logic             := '0';
         variable nPackets     : unsigned(31 downto 0) := (others => '0');
     begin
 
@@ -119,34 +114,24 @@ begin  -- architecture Behavioral
             s_axi_tlast_r <= '0';
             sNPackets <= nPackets;
 
-            -- an incoming force pulse should send a last when the fifo is empty
             if rst = '1' then
                 s_state_r <= IDLE;
                 nPackets      := (others => '0');
-            elsif qpixForce = '1' then
-                forceLast := '1';
             end if;
 
             case s_state_r is
 
                 -- Ready for FIFO write data
                 -- initiated by the following conditions:
-                --   * assertion of qpixEnable
                 --   * assertion of not fifo_empty
                 when IDLE =>
 
                   v_word_phase := 0;
 
-                  if fifo_empty /= '1' and qpixEnable = '1' then
+                  if fifo_empty /= '1' then
                     s_state_r          <= WRITE_DATA_S;
                     s_fifo_ren         <= '1';  -- update the fifo to read from 
                     newWord            := '0';
-                  -- if we've received a force last with no data, still send a fake packet
-                  elsif qpixEnable = '1' and forceLast = '1' and s_axi_tready_r = '1' then
-                    s_axi_tdata   <= x"beefcafe";
-                    s_axi_tlast_r <= '1';
-                    s_axi_tvalid  <= '1';
-                    forceLast     := '0';
                   end if;
 
                 -- Write data words to addr
@@ -188,11 +173,6 @@ begin  -- architecture Behavioral
                         -- if the fifo is empty, we're out of the write/read phase
                         if fifo_empty = '1' then
                             s_state_r     <= DONE_S;
-                            if forceLast = '1' then
-                                s_axi_tlast_r <= '1';
-                                forceLast     := '0';
-                                nPackets      := (others => '0');
-                            end if;
                         else
                             s_fifo_ren   <= '1';  -- move to the next word in the fifo
                             newWord      := '0';
