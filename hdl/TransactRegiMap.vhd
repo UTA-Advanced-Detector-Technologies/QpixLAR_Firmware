@@ -9,9 +9,6 @@
 -- Description :
 -- Transaction register map 
 -------------------------------------------------------------------------------
--- take it, it's yours
--- (Brad Pitt in Troy)
---------------------------------------------------------------------------------
 -- Modification history :
 -- Created       : Oct. 8. 2024
 -------------------------------------------------------------------------------
@@ -45,6 +42,11 @@ entity TransactRegiMap is
       reg_8       : out std_logic_vector(31 downto 0);
       reg_9       : out std_logic_vector(31 downto 0);
 
+      -- 
+      -- Qpix Carrier Specific registers
+      -- 
+      SHDN        : out std_logic_vector(15 downto 0);
+
       -- interface to AXI slave module
       addr        : in  std_logic_vector(31 downto 0);
       rdata       : out std_logic_vector(31 downto 0);
@@ -71,6 +73,8 @@ architecture behav of TransactRegiMap is
    signal s_reg_8      : std_logic_vector(31 downto 0);
    signal s_reg_9      : std_logic_vector(31 downto 0);
 
+   -- carrier specific
+   signal s_SHDN       : std_logic_vector(15 downto 0);
 begin
 
    a_reg_addr <= addr(15 downto 0);
@@ -83,8 +87,20 @@ begin
          -- defaults
          ack                  <= req;
 
+         -- assignments
+         reg_0 <= s_reg_0;
+         reg_1 <= s_reg_1;
+         reg_2 <= s_reg_2;
+         reg_3 <= s_reg_3;
+         reg_4 <= s_reg_4;
+         reg_5 <= s_reg_5;
+         reg_6 <= s_reg_6;
+         reg_7 <= s_reg_7;
+         reg_8 <= s_reg_8;
+         reg_9 <= s_reg_9;
 
-         -- TODO, track when PHY_BUS_RST is actually asserted
+         -- carrier specific
+         SHDN <= s_SHDN;
 
          -- reg mapping
          case a_reg_addr is
@@ -166,6 +182,15 @@ begin
                else
                   rdata <= s_reg_9;
                end if;
+
+            -- control register offsets
+            when x"4000" =>
+               if wen = '1' and req = '1' then
+                  s_SHDN <= wdata;
+               else
+                  rdata <= s_SHDN;
+               end if;
+
 
             when others =>
                rdata <= x"aBAD_ADD0";
