@@ -48,6 +48,11 @@ entity TransactRegiMap is
       SHDN         : out std_logic_vector(15 downto 0);
       QpixMask     : out std_logic_vector(15 downto 0);
       PacketLength : out std_logic_vector(31 downto 0);
+      -- spi register controls
+      load_DAC1    : out std_logic;
+      DAC_reg1     : out std_logic_vector(15 downto 0);
+      load_DAC2    : out std_logic;
+      DAC_reg2     : out std_logic_vector(15 downto 0);
 
       -- interface to AXI slave module
       addr        : in  std_logic_vector(31 downto 0);
@@ -108,7 +113,13 @@ begin
          SHDN         <= s_SHDN;
          QpixMask     <= s_QpixMask;
          PacketLength <= s_PacketLength;
-
+         DAC_reg1     <= s_DAC_reg1;
+         DAC_reg2     <= s_DAC_reg2;
+         
+         -- pulsed values
+         load_DAC1 <= '0';
+         load_DAC2 <= '0';
+       
          -- reg mapping
          case a_reg_addr is
 
@@ -210,6 +221,22 @@ begin
                   s_PacketLength <= wdata;
                else
                   rdata <= s_PacketLength;
+               end if;
+
+            when x"400C" =>
+               if wen = '1' and req = '1' then
+                  s_DAC_reg1 <= wdata(15 downto 0);
+                  load_DAC1  <= '1';
+               else
+                  rdata(15 downto 0) <= s_DAC_reg1;
+               end if;
+
+            when x"4010" =>
+               if wen = '1' and req = '1' then
+                  s_DAC_reg2 <= wdata(15 downto 0);
+                  load_DAC2  <= '1';
+               else
+                  rdata(15 downto 0) <= s_DAC_reg2;
                end if;
 
             when others =>
