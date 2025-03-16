@@ -14,18 +14,10 @@ int main()
     TxEthBufferPtr = (u32 *)TX_ETH_BUFFER_BASE;
 
     init_platform();
-	xil_printf("SMBus Master Interrupt Example Test \r\n");
+	xil_printf("QPIX-LAR Init\r\n");
 
     // configure I2C master
-    SetupIIC();
-
-    // test send
-    u8 SendBuffer1[] = {0x03, 0x2f, 0x55};
-    IicSend(SendBuffer1, sizeof(SendBuffer1), 0x0c);
-
-    // test send
-    u8 SendBuffer2[] = {0x03, 0x2f, 0x55};
-    IicSend(SendBuffer2, sizeof(SendBuffer2), 0x0d);
+    // int ret = test_iic();
 
     // opens the TCP socket and begins DHCP, if BSP is configured to do so
     SetupEthernet();
@@ -45,7 +37,7 @@ int main()
 		transfer_data();
     } // main loop
 
-    // int ret = test_iic();
+
     
     cleanup_platform();
     return 0;
@@ -66,6 +58,15 @@ static int test_iic()
     u8 cmdBuf[] = {0}; // set addr cmd to zero
     IicRecv(RecvBuffer, sizeof(RecvBuffer), IIC_SLAVE_ADDR,
                       cmdBuf, sizeof(cmdBuf));
+
+    // test send
+    u8 SendBuffer1[] = {0x03, 0x2f, 0x55};
+    IicSend(SendBuffer1, sizeof(SendBuffer1), 0x0c);
+
+    // test send
+    u8 SendBuffer2[] = {0x03, 0x2f, 0x55};
+    IicSend(SendBuffer2, sizeof(SendBuffer2), 0x0d);
+
 
 	xil_printf("Successfully ran SMBus Master Interrupt Example Test\r\n");    
     return XST_SUCCESS;

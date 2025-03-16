@@ -160,7 +160,7 @@
 			xlnx,pcw-nor-grp-sram-cs0-enable = <0>;
 			xlnx,pcw-clk1-freq = <50000000>;
 			xlnx,pcw-mio-48-slew = "slow";
-			xlnx,pcw-m-axi-gp0-freqmhz = <200>;
+			xlnx,pcw-m-axi-gp0-freqmhz = <50>;
 			xlnx,pcw-ttc0-clk2-peripheral-divisor0 = <1>;
 			xlnx,pcw-mio-45-slew = "slow";
 			xlnx,pcw-ttc1-highaddr = <0xE0105fff>;
@@ -197,7 +197,7 @@
 			xlnx,pcw-mio-22-slew = "slow";
 			xlnx,pcw-mio-26-pullup = "enabled";
 			xlnx,pcw-nand-cycles-t-wc = <11>;
-			xlnx,pcw-fpga2-peripheral-freqmhz = <50>;
+			xlnx,pcw-fpga2-peripheral-freqmhz = <125>;
 			xlnx,pcw-mio-18-slew = "slow";
 			xlnx,pcw-mio-47-direction = "in";
 			xlnx,pcw-nor-sram-cs0-t-pc = <1>;
@@ -762,7 +762,7 @@
 			xlnx,pcw-mio-29-pullup = "enabled";
 			xlnx,pcw-mio-30-pullup = "enabled";
 			xlnx,trace-internal-width = <2>;
-			xlnx,pcw-s-axi-hp0-freqmhz = <200>;
+			xlnx,pcw-s-axi-hp0-freqmhz = <50>;
 			xlnx,pcw-usb0-baseaddr = <0xE0102000>;
 			xlnx,pcw-i2c0-highaddr = <0xE0004FFF>;
 			xlnx,pcw-mio-7-direction = "out";

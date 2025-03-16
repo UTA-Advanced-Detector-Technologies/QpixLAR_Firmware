@@ -99,7 +99,7 @@ int SetupIIC()
 	* init the iic master
 	*/
 	if (XIicPsSmbusMasterInit(XIICPS_BASEADDRESS) != XST_SUCCESS) {
-		xil_printf("SMBus Master Interrupt Example Test Failed\r\n");
+		xil_printf("QPIX-LAR iic Test Failed\r\n");
 		return XST_FAILURE;
 	}
     return XST_SUCCESS;
@@ -116,7 +116,7 @@ int IicSend(u8* msg, s32 byteCnt, u16 i2c_addr)
             break;
 		}
 	}
-	xil_printf("SMBus Master Send: error count = 0x%x \r\n", TotalErrorCount);
+	xil_printf("QPIX-LAR Send: error count = 0x%x \r\n", TotalErrorCount);
     if(TotalErrorCount > 0)
         return XST_FAILURE;
     else
