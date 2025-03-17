@@ -14,6 +14,10 @@
 
 // ASCII 0C2I with endian-ness
 #define I2C_PACKET 0x00433249
+// ASCII 0IPS with endian-ness
+#define SPI_PACKET 0x00495053
+// ASCII XIPQ with endian-ness
+#define QPIX_PACKET 0x58495051
 
 #define MAX_PKT_LEN_TX 1000
 #define MAX_PKT_LEN_RX 1000

@@ -145,7 +145,7 @@ err_t recv_callback(void *arg, struct tcp_pcb *tpcb,
         Xil_DCacheFlushRange((UINTPTR)(RxEthBufferPtr), recv_size);
 		u32 size = HandleCmdRequest(RxEthBufferPtr, &TxEthBufferPtr, recv_size);
         Xil_DCacheFlushRange((UINTPTR)(TxEthBufferPtr), size);
-		err = tcp_write(tpcb, TxEthBufferPtr+2, size-8, 1);
+		err = tcp_write(tpcb, TxEthBufferPtr, size, 1);
 	} else
 		xil_printf("no space in tcp_sndbuf\n\r");
 
