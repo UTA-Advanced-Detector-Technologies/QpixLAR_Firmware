@@ -45,12 +45,6 @@ int SetupEthernet(unsigned char* a)
     {
         mac_ethernet_address[i] = a[i];
     }
-    for(int i=0; i<6; ++i)
-    {
-		xil_printf("%d=%02x\r\n", i, mac_ethernet_address[i]);
-    }
-
-
 
 	echo_netif = &server_netif;
 	init_platform();

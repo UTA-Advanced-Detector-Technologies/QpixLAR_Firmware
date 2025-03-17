@@ -1,26 +1,42 @@
 #include <stdio.h>
+#include <xaxidma.h>
 #include <xstatus.h>
 #include "platform.h"
+#include "xparameters.h"
 #include "xil_printf.h"
 
+#include "dmaControl.h"
 #include "helper.h"
 
 static int test_iic();
 
 u32* TxEthBufferPtr;
+u32* RxEthBufferPtr;
+
+u32* TxDMABufferPtr;
+u32* RxDMABufferPtr;
+
+XAxiDma dma;
 
 int main()
 {
     TxEthBufferPtr = (u32 *)TX_ETH_BUFFER_BASE;
+    RxEthBufferPtr = (u32 *)RX_ETH_BUFFER_BASE;
+
+    TxDMABufferPtr = (u32 *)TX_DMA_BUFFER_BASE;
+    RxDMABufferPtr = (u32 *)RX_DMA_BUFFER_BASE;
 
     init_platform();
 	xil_printf("QPIX-LAR Init\r\n");
 
+    Init_Qpix_DMA(XPAR_AXI_DMA_0_BASEADDR, &dma, RxDMABufferPtr, TxDMABufferPtr);
+    
     // configure I2C master
     // int ret = test_iic();
 
     // opens the TCP socket and begins DHCP, if BSP is configured to do so
-    SetupEthernet();
+    unsigned char mac_addr[6] = {0x00, 0x12, 0x34, 0x33, 0x1, 0x2};
+    SetupEthernet(mac_addr);
 
     while(1)
     {        
@@ -37,8 +53,6 @@ int main()
 		transfer_data();
     } // main loop
 
-
-    
     cleanup_platform();
     return 0;
 }

@@ -1,9 +1,9 @@
 {
    "ActiveEmotionalView":"Default View",
-   "Default View_ScaleFactor":"1.16629",
-   "Default View_TopLeft":"1436,281",
+   "Default View_ScaleFactor":"0.717936",
+   "Default View_TopLeft":"78,-377",
    "ExpandedHierarchyInLayout":"",
-   "guistr":"# # String gsaved with Nlview 7.7.1 2023-07-26 3bc4126617 VDI=43 GEI=38 GUI=JA:21.0
+   "guistr":"# # String gsaved with Nlview 7.7.1 2023-07-26 3bc4126617 VDI=43 GEI=38 GUI=JA:21.0 threadsafe
 #  -string -flagsOSRD
 preplace port DDR -pg 1 -lvl 7 -x 3080 -y -410 -defaultsOSRD
 preplace port FIXED_IO -pg 1 -lvl 7 -x 3080 -y -380 -defaultsOSRD
@@ -50,7 +50,7 @@ preplace inst TransactRegiMap_0 -pg 1 -lvl 5 -x 2130 -y 290 -defaultsOSRD
 preplace inst axi_dma_0 -pg 1 -lvl 1 -x 470 -y 80 -defaultsOSRD
 preplace inst axi_mem_intercon -pg 1 -lvl 2 -x 1090 -y -200 -defaultsOSRD
 preplace inst xlconcat_0 -pg 1 -lvl 1 -x 470 -y 680 -defaultsOSRD
-preplace inst qpix_reg_rtl_0 -pg 1 -lvl 6 -x 2670 -y 160 -defaultsOSRD
+preplace inst qpix_reg_rtl_0 -pg 1 -lvl 6 -x 2700 -y 160 -defaultsOSRD
 preplace inst axis_data_fifo_0 -pg 1 -lvl 1 -x 470 -y 550 -defaultsOSRD
 preplace inst fifo_generator_0 -pg 1 -lvl 2 -x 1090 -y 890 -defaultsOSRD
 preplace inst qpix_carrier_data_ct_0 -pg 1 -lvl 2 -x 1090 -y 650 -defaultsOSRD
@@ -63,12 +63,12 @@ preplace netloc AxiLiteSlaveSimple_0_addr 1 3 2 N 230 1850
 preplace netloc AxiLiteSlaveSimple_0_req 1 3 2 N 270 1830
 preplace netloc AxiLiteSlaveSimple_0_wdata 1 3 2 N 250 1840
 preplace netloc AxiLiteSlaveSimple_0_wen 1 3 2 N 290 1820
-preplace netloc Q_0_1 1 0 2 -50J 460 730J
-preplace netloc S00_ARESETN_1 1 0 3 230 -460 930 380 1320
+preplace netloc Q_0_1 1 0 2 -50J 460 740J
+preplace netloc S00_ARESETN_1 1 0 3 220 -110 920 380 1320
 preplace netloc TransactRegiMap_0_DAC_reg1 1 3 3 1620 880 NJ 880 2330
 preplace netloc TransactRegiMap_0_DAC_reg2 1 3 3 1610 890 NJ 890 2300
-preplace netloc TransactRegiMap_0_PacketLength 1 0 6 240 1090 NJ 1090 NJ 1090 NJ 1090 N 1090 2350
-preplace netloc TransactRegiMap_0_QpixMask 1 1 5 900 540 NJ 540 NJ 540 N 540 2310
+preplace netloc TransactRegiMap_0_PacketLength 1 0 6 220 1090 NJ 1090 NJ 1090 NJ 1090 N 1090 2350
+preplace netloc TransactRegiMap_0_QpixMask 1 1 5 910 540 NJ 540 NJ 540 N 540 2310
 preplace netloc TransactRegiMap_0_SHDN 1 5 2 2360J 510 NJ
 preplace netloc TransactRegiMap_0_ack 1 2 4 1340 550 NJ 550 N 550 2290
 preplace netloc TransactRegiMap_0_load_DAC1 1 3 3 1610 560 NJ 560 2340
@@ -84,65 +84,63 @@ preplace netloc TransactRegiMap_0_reg_6 1 5 1 2400 230n
 preplace netloc TransactRegiMap_0_reg_7 1 5 1 2390 250n
 preplace netloc TransactRegiMap_0_reg_8 1 5 1 2380 270n
 preplace netloc TransactRegiMap_0_reg_9 1 5 1 2370 290n
-preplace netloc axi_dma_0_mm2s_introut 1 0 2 220 -120 690
-preplace netloc axi_dma_0_s2mm_introut 1 0 2 240 -110 710
-preplace netloc fifo_generator_0_dout 1 0 2 250 860 710J
-preplace netloc fifo_generator_0_empty 1 0 2 250 1080 860
-preplace netloc fifo_generator_0_valid 1 0 3 220 1100 NJ 1100 1240
-preplace netloc opad2_DataOut1_0_1 1 0 6 -10J -50 NJ -50 NJ -50 NJ -50 1980 -20 2510J
-preplace netloc opad2_DataOut2_0_1 1 0 6 -20J -70 900J -30 NJ -30 NJ -30 1960 10 2470J
-preplace netloc opad2_deltaT_0_1 1 0 6 0J -60 890J -40 NJ -40 NJ -40 1970 -10 2490J
-preplace netloc opad_DataOut1_0_1 1 0 6 -50J -100 940J -10 NJ -10 NJ -10 1940 30 NJ
-preplace netloc opad_DataOut2_0_1 1 0 6 -40J -90 910J 0 NJ 0 NJ 0 1840 40 2500J
-preplace netloc opad_deltaT_0_1 1 0 6 -30J -80 880J 10 NJ 10 NJ 10 1830 50 2460J
-preplace netloc processing_system7_0_FCLK_CLK0 1 1 5 840 -20 N -20 N -20 1950 20 2480
-preplace netloc processing_system7_0_FCLK_CLK1 1 0 6 210 -670 850J 390 1310J 360 NJ 360 1930 0 2500
-preplace netloc processing_system7_0_FCLK_RESET0_N 1 0 2 250 -660 690J
-preplace netloc qpix_carrier_data_ct_0_qpixCtrlOut 1 1 2 920 550 1240
-preplace netloc qpix_carrier_data_ct_0_qpixCtrlOutValid 1 1 2 940 560 1250
-preplace netloc qpix_carrier_fifo_ct_0_qpix_fifo_ren 1 1 1 700 920n
-preplace netloc qpix_reg_rtl_0_opad2_CLK 1 6 1 2840 360n
-preplace netloc qpix_reg_rtl_0_opad2_CLKin 1 6 1 2950 150n
-preplace netloc qpix_reg_rtl_0_opad2_CLKin2 1 6 1 2960 180n
-preplace netloc qpix_reg_rtl_0_opad2_DataIn 1 6 1 2970 210n
-preplace netloc qpix_reg_rtl_0_opad2_RST_EXT 1 6 1 2860 370n
-preplace netloc qpix_reg_rtl_0_opad2_cal_control 1 6 1 2830 350n
-preplace netloc qpix_reg_rtl_0_opad2_control 1 6 1 2830 240n
+preplace netloc axi_dma_0_s2mm_introut 1 0 2 210 -50 710
+preplace netloc fifo_generator_0_dout 1 0 2 230 860 730J
+preplace netloc fifo_generator_0_empty 1 0 2 240 1080 890
+preplace netloc fifo_generator_0_valid 1 0 3 200 1100 NJ 1100 1250
+preplace netloc opad2_DataOut1_0_1 1 0 6 -30J -80 NJ -80 NJ -80 NJ -80 1980 -20 2530J
+preplace netloc opad2_DataOut2_0_1 1 0 6 -10J -70 NJ -70 NJ -70 NJ -70 1970 -10 2470J
+preplace netloc opad2_deltaT_0_1 1 0 6 0J -60 NJ -60 NJ -60 NJ -60 1960 0 2500J
+preplace netloc opad_DataOut1_0_1 1 0 6 -20J -30 740J -20 NJ -20 NJ -20 1940 30 NJ
+preplace netloc opad_DataOut2_0_1 1 0 6 -40J -90 860J -10 NJ -10 NJ -10 1840 40 2520J
+preplace netloc opad_deltaT_0_1 1 0 6 -50J -100 870J 0 NJ 0 NJ 0 1830 50 2510J
+preplace netloc processing_system7_0_FCLK_CLK0 1 1 5 840 -30 N -30 N -30 1950 20 2490
+preplace netloc processing_system7_0_FCLK_CLK1 1 0 6 200 -130 880J 390 1310J 360 NJ 360 1930 10 2480
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 0 2 240 -660 710J
+preplace netloc qpix_carrier_data_ct_0_qpixCtrlOut 1 1 2 920 550 1250
+preplace netloc qpix_carrier_data_ct_0_qpixCtrlOutValid 1 1 2 930 560 1260
+preplace netloc qpix_carrier_fifo_ct_0_qpix_fifo_ren 1 1 1 710 920n
+preplace netloc qpix_reg_rtl_0_opad2_CLK 1 6 1 2880 360n
+preplace netloc qpix_reg_rtl_0_opad2_CLKin 1 6 1 2990 150n
+preplace netloc qpix_reg_rtl_0_opad2_CLKin2 1 6 1 3000 180n
+preplace netloc qpix_reg_rtl_0_opad2_DataIn 1 6 1 3010 210n
+preplace netloc qpix_reg_rtl_0_opad2_RST_EXT 1 6 1 2900 370n
+preplace netloc qpix_reg_rtl_0_opad2_cal_control 1 6 1 2870 350n
+preplace netloc qpix_reg_rtl_0_opad2_control 1 6 1 2870 240n
 preplace netloc qpix_reg_rtl_0_opad2_loadData 1 6 1 N 270
-preplace netloc qpix_reg_rtl_0_opad2_selDefData 1 6 1 2970 290n
-preplace netloc qpix_reg_rtl_0_opad2_serialOutCnt 1 6 1 2970 310n
-preplace netloc qpix_reg_rtl_0_opad2_startup 1 6 1 2930 330n
-preplace netloc qpix_reg_rtl_0_opad_CLK 1 6 1 2940 120n
-preplace netloc qpix_reg_rtl_0_opad_CLKin 1 6 1 2840 -180n
-preplace netloc qpix_reg_rtl_0_opad_CLKin2 1 6 1 2850 -150n
-preplace netloc qpix_reg_rtl_0_opad_DataIn 1 6 1 2860 -120n
-preplace netloc qpix_reg_rtl_0_opad_Ext_POR 1 6 1 2830 -210n
-preplace netloc qpix_reg_rtl_0_opad_RST_EXT 1 6 1 2930 90n
-preplace netloc qpix_reg_rtl_0_opad_cal_control 1 6 1 2920 60n
-preplace netloc qpix_reg_rtl_0_opad_control 1 6 1 2870 -90n
-preplace netloc qpix_reg_rtl_0_opad_loadData 1 6 1 2880 -60n
-preplace netloc qpix_reg_rtl_0_opad_selDefData 1 6 1 2890 -30n
-preplace netloc qpix_reg_rtl_0_opad_serialOutCnt 1 6 1 2900 0n
-preplace netloc qpix_reg_rtl_0_opad_startup 1 6 1 2910 30n
-preplace netloc spi_interface_ctrl_0_SCK 1 5 2 2510J 690 NJ
-preplace netloc spi_interface_ctrl_0_SDI 1 5 2 NJ 720 2970J
-preplace netloc spi_interface_ctrl_0_bCS 1 5 2 2510J 650 NJ
-preplace netloc spi_interface_ctrl_0_bLDAC 1 5 2 2480J 620 NJ
-preplace netloc xlconcat_0_dout 1 0 2 240 -130 720
+preplace netloc qpix_reg_rtl_0_opad2_selDefData 1 6 1 3010 290n
+preplace netloc qpix_reg_rtl_0_opad2_serialOutCnt 1 6 1 3010 310n
+preplace netloc qpix_reg_rtl_0_opad2_startup 1 6 1 2970 330n
+preplace netloc qpix_reg_rtl_0_opad_CLK 1 6 1 2980 120n
+preplace netloc qpix_reg_rtl_0_opad_CLKin 1 6 1 2880 -180n
+preplace netloc qpix_reg_rtl_0_opad_CLKin2 1 6 1 2890 -150n
+preplace netloc qpix_reg_rtl_0_opad_DataIn 1 6 1 2900 -120n
+preplace netloc qpix_reg_rtl_0_opad_Ext_POR 1 6 1 2870 -210n
+preplace netloc qpix_reg_rtl_0_opad_RST_EXT 1 6 1 2970 90n
+preplace netloc qpix_reg_rtl_0_opad_cal_control 1 6 1 2960 60n
+preplace netloc qpix_reg_rtl_0_opad_control 1 6 1 2910 -90n
+preplace netloc qpix_reg_rtl_0_opad_loadData 1 6 1 2920 -60n
+preplace netloc qpix_reg_rtl_0_opad_selDefData 1 6 1 2930 -30n
+preplace netloc qpix_reg_rtl_0_opad_serialOutCnt 1 6 1 2940 0n
+preplace netloc qpix_reg_rtl_0_opad_startup 1 6 1 2950 30n
+preplace netloc spi_interface_ctrl_0_SCK 1 5 2 2530J 690 NJ
+preplace netloc spi_interface_ctrl_0_SDI 1 5 2 NJ 720 3010J
+preplace netloc spi_interface_ctrl_0_bCS 1 5 2 2530J 650 NJ
+preplace netloc spi_interface_ctrl_0_bLDAC 1 5 2 2490J 620 NJ
+preplace netloc xlconcat_0_dout 1 0 2 230 -120 730
 preplace netloc xlconcat_1_dout 1 4 1 1910 690n
 preplace netloc xlconcat_2_dout 1 4 1 1820 720n
-preplace netloc xlconstant_0_dout 1 0 5 240 850 880 740 1280 620 N 620 1820
-preplace netloc axi_dma_0_M_AXI_MM2S 1 1 1 870 -270n
-preplace netloc axi_dma_0_M_AXI_S2MM 1 1 1 860 -290n
+preplace netloc xlconstant_0_dout 1 0 5 210 850 900 740 1280 620 N 620 1820
+preplace netloc axi_dma_0_M_AXI_S2MM 1 1 1 850 -260n
 preplace netloc axi_interconnect_0_M00_AXI 1 2 1 1260 220n
-preplace netloc axi_interconnect_0_M01_AXI 1 0 3 200 -680 NJ -680 1250
-preplace netloc axi_mem_intercon_M00_AXI 1 0 3 250 -140 710J -350 1240
-preplace netloc axis_data_fifo_0_M_AXIS 1 0 2 250 -40 700
-preplace netloc processing_system7_0_DDR 1 1 6 710 -410 NJ -410 N -410 N -410 N -410 N
+preplace netloc axi_interconnect_0_M01_AXI 1 0 3 240 -40 NJ -40 1250
+preplace netloc axi_mem_intercon_M00_AXI 1 0 3 240 -140 730J -320 1250
+preplace netloc axis_data_fifo_0_M_AXIS 1 0 2 230 -20 700
+preplace netloc processing_system7_0_DDR 1 1 6 750 -410 NJ -410 N -410 N -410 N -410 N
 preplace netloc processing_system7_0_FIXED_IO 1 1 6 N -380 NJ -380 N -380 N -380 N -380 N
-preplace netloc processing_system7_0_M_AXI_GP0 1 1 1 920 -320n
-preplace netloc qpix_carrier_fifo_ct_0_S_AXI_0 1 0 2 250 470 690
-levelinfo -pg 1 -70 470 1090 1470 1720 2130 2670 3080
+preplace netloc processing_system7_0_M_AXI_GP0 1 1 1 720 -320n
+preplace netloc qpix_carrier_fifo_ct_0_S_AXI_0 1 0 2 240 470 720
+levelinfo -pg 1 -70 470 1090 1470 1720 2130 2700 3080
 pagesize -pg 1 -db -bbox -sgen -240 -1000 3260 1350
 "
 }

@@ -20,7 +20,8 @@ extern struct netif *echo_netif;
 
 extern u32* TxEthBufferPtr;
 extern u32* RxEthBufferPtr;
-// #define TX_ETH_BUFFER_BASE 0x0F000000
+#define RX_ETH_BUFFER_BASE 0x0E000000
+#define TX_ETH_BUFFER_BASE 0x0F000000
 
 void print_ip(char *msg, ip_addr_t *ip);
 void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw);

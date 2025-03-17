@@ -5,7 +5,7 @@
 #include "xil_io.h"
 #include "xaxidma.h"
 #include <xaxidma_hw.h>
-#include "xbram.h"
+// #include "xbram.h"
 #include "xinterrupt_wrap.h"
 
 // local includes
@@ -14,6 +14,15 @@
 
 // ASCII 0C2I with endian-ness
 #define I2C_PACKET 0x00433249
+
+#define MAX_PKT_LEN_TX 1000
+#define MAX_PKT_LEN_RX 1000
+
+#define RX_DMA_BUFFER_BASE 0x0C000000
+#define TX_DMA_BUFFER_BASE 0x0D000000
+
+#define TREG_ADDR XPAR_AXILITESLAVESIMPLE_0_BASEADDR
+#define RESET_TIMEOUT_COUNTER   10000
 
 u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize);
 

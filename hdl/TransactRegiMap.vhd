@@ -204,28 +204,28 @@ begin
                end if;
 
             -- control register offsets
-            when x"4000" =>
+            when x"1000" =>
                if wen = '1' and req = '1' then
                   s_SHDN <= wdata(15 downto 0);
                else
                   rdata(15 downto 0) <= s_SHDN;
                end if;
 
-            when x"4004" =>
+            when x"1004" =>
                if wen = '1' and req = '1' then
                   s_QpixMask <= wdata(15 downto 0);
                else
                   rdata(15 downto 0) <= s_QpixMask;
                end if;
 
-            when x"4008" =>
+            when x"1008" =>
                if wen = '1' and req = '1' then
                   s_PacketLength <= wdata;
                else
                   rdata <= s_PacketLength;
                end if;
 
-            when x"400C" =>
+            when x"100C" =>
                if wen = '1' and req = '1' then
                   s_DAC_reg1 <= wdata(15 downto 0);
                   load_DAC1  <= '1';
@@ -233,7 +233,7 @@ begin
                   rdata(15 downto 0) <= s_DAC_reg1;
                end if;
 
-            when x"4010" =>
+            when x"1010" =>
                if wen = '1' and req = '1' then
                   s_DAC_reg2 <= wdata(15 downto 0);
                   load_DAC2  <= '1';

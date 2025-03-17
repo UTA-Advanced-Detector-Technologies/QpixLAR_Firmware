@@ -43,20 +43,21 @@ static int InitDMA(u32 base_addr, XAxiDma* dma, u32* rxBase, u32* txBase,
     }
 
     /* Set up Interrupt system  */
-    Status = XSetupInterruptSystem(dma, txHandle,
+    Status = XSetupInterruptSystem(dma, rxHandle,
                        Config->IntrId[0], Config->IntrParent,
                        XINTERRUPT_DEFAULT_PRIORITY);
     if (Status != XST_SUCCESS) {
         xil_printf("ERROR, unable to configure interrupt tx \r\n");
         return XST_FAILURE;
     }
-    Status = XSetupInterruptSystem(dma, rxHandle,
-                       Config->IntrId[1], Config->IntrParent,
-                       XINTERRUPT_DEFAULT_PRIORITY);
-    if (Status != XST_SUCCESS) {
-        xil_printf("ERROR, unable to configure interrupt tx \r\n");
-        return XST_FAILURE;
-    }
+    // disabled mm2s configuration as this DMA only receives streams
+    // Status = XSetupInterruptSystem(dma, txHandle,
+    //                    Config->IntrId[1], Config->IntrParent,
+    //                    XINTERRUPT_DEFAULT_PRIORITY);
+    // if (Status != XST_SUCCESS) {
+    //     xil_printf("ERROR, unable to configure interrupt tx \r\n");
+    //     return XST_FAILURE;
+    // }
 
     /* Disable all interrupts before setup */
     XAxiDma_IntrDisable(dma, XAXIDMA_IRQ_ALL_MASK,
@@ -86,8 +87,7 @@ static int InitDMA(u32 base_addr, XAxiDma* dma, u32* rxBase, u32* txBase,
 }
 
 // Rx nodal interrupt function wrappers
-static void RxIntrHandler(void *Callback, u32 base_addr,
-                          u32* rx_addr, u32* tx_addr, volatile u32* TxDataLen)
+static void RxUDPIntrHandler(void *Callback, u32 base_addr, u32* rx_addr)
 {
     static int recv_packets = 0;
     int TimeOut;
@@ -139,18 +139,13 @@ static void RxIntrHandler(void *Callback, u32 base_addr,
     if ((reg_stat & XAXIDMA_IRQ_IOC_MASK)) {
         recv_packets += 1;
         // read the input packets
-        *RxDataLen = Xil_In32(base_addr+0x58);
-        Xil_DCacheFlushRange((UINTPTR)rx_addr, *RxDataLen);
-        // buffer incoming data at TxBufferPtr mem location
-        u32 size = Handle(rx_addr, tx_addr, *RxDataLen, TxDataLen);
-        Xil_DCacheFlushRange((UINTPTR)tx_addr, size);
+        u32 RxDataLen = Xil_In32(base_addr+0x58);
+        Xil_DCacheFlushRange((UINTPTR)rx_addr, RxDataLen);
 
         if(tcp_connection)
         {
             // xil_printf("sending udp packet\r\n");
-            *RxDataLen = 0;
-            udp_packet_send(tx_addr+2, size/4-2);
-            *TxDataLen = 0;
+            udp_packet_send(rx_addr, RxDataLen);
         }
 
         // re-arm the DMA
@@ -160,6 +155,13 @@ static void RxIntrHandler(void *Callback, u32 base_addr,
     }else {
         xil_printf("enountered RxIntr Error \r\n");
     }
+}
+
+// wrapper to the udp handler function so when DMA flags new RX data it can be 
+// sent over UDP
+static void RxIntrHandler(void *Callback)
+{
+    RxUDPIntrHandler(Callback, XPAR_AXI_DMA_0_BASEADDR, RX_ETH_BUFFER_BASE);
 }
 
 // Tx functions
