@@ -10,7 +10,9 @@
 /*
  * The slave address to send to and receive from.
  */
-#define IIC_SLAVE_ADDR		0x50 // 0x45 og from example
+#define IIC_SLAVE_ADDR_1	0x0C // LVDS_CM, port 0 only
+#define IIC_SLAVE_ADDR_2	0x0D // VCM1 & VCM2, uses both ports
+
 #define IIC_SCLK_RATE		100000
 
 /*

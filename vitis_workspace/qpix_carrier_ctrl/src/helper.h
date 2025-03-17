@@ -21,6 +21,18 @@
 // ASCII LRTC with endian-ness
 #define CTRL_PACKET 0x4C525443
 
+// special control values to select ctrl registers
+#define CTRL_SHDN 0x4C520000
+#define CTRL_MASK 0x4C520001
+#define CTRL_PLEN 0x4C520010
+
+// total number of reg_0..N qpix registers defined
+#define QPIX_NUM_REGS 9
+
+// define good and packet packets for return types on reg IO
+#define GOOD_PACKET 0xc0decafe
+#define BAD_PACKET 0xabadadd5
+
 #define MAX_PKT_LEN_TX 1000
 #define MAX_PKT_LEN_RX 1000
 
@@ -28,6 +40,11 @@
 #define TX_DMA_BUFFER_BASE 0x0D000000
 
 #define TREG_ADDR XPAR_AXILITESLAVESIMPLE_0_BASEADDR
+#define TREG_QPIX_ADDR (TREG_ADDR + 0x0004)
+#define TREG_CTRL_ADDR (TREG_ADDR + 0x1000)
+#define VCOMP1_ADDR (TREG_ADDR + 0x100C)
+#define VCOMP2_ADDR (TREG_ADDR + 0x1010)
+
 #define RESET_TIMEOUT_COUNTER   10000
 
 u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize);

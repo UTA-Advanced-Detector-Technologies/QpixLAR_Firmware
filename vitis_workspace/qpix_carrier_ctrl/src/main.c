@@ -32,7 +32,7 @@ int main()
     Init_Qpix_DMA(XPAR_AXI_DMA_0_BASEADDR, &dma, RxDMABufferPtr, TxDMABufferPtr);
     
     // configure I2C master
-    // int ret = test_iic();
+    SetupIIC();
 
     // opens the TCP socket and begins DHCP, if BSP is configured to do so
     unsigned char mac_addr[6] = {0x00, 0x12, 0x34, 0x33, 0x1, 0x2};
@@ -59,29 +59,25 @@ int main()
 
 static int test_iic()
 {
-    SetupIIC();
-
-    char cmd = 0x08;
-
     // test send
-    u8 SendBuffer[] = {cmd, 0x1};
-    IicSend(SendBuffer, sizeof(SendBuffer), IIC_SLAVE_ADDR);
+    // char cmd = 0x08;
+    // u8 SendBuffer[] = {cmd, 0x1};
+    // IicSend(SendBuffer, sizeof(SendBuffer), IIC_SLAVE_ADDR);
 
     // test recv
-    u8 RecvBuffer[] = {0,0,0,0,0,0,0,0,0};
-    u8 cmdBuf[] = {0}; // set addr cmd to zero
-    IicRecv(RecvBuffer, sizeof(RecvBuffer), IIC_SLAVE_ADDR,
-                      cmdBuf, sizeof(cmdBuf));
+    // u8 RecvBuffer[] = {0,0,0,0,0,0,0,0,0};
+    // u8 cmdBuf[] = {0}; // set addr cmd to zero
+    // IicRecv(RecvBuffer, sizeof(RecvBuffer), IIC_SLAVE_ADDR,
+    //                   cmdBuf, sizeof(cmdBuf));
 
     // test send
     u8 SendBuffer1[] = {0x03, 0x2f, 0x55};
-    IicSend(SendBuffer1, sizeof(SendBuffer1), 0x0c);
+    IicSend(SendBuffer1, sizeof(SendBuffer1), IIC_SLAVE_ADDR_1);
 
     // test send
     u8 SendBuffer2[] = {0x03, 0x2f, 0x55};
-    IicSend(SendBuffer2, sizeof(SendBuffer2), 0x0d);
+    IicSend(SendBuffer2, sizeof(SendBuffer2), IIC_SLAVE_ADDR_2);
 
-
-	xil_printf("Successfully ran SMBus Master Interrupt Example Test\r\n");    
+	xil_printf("Successfully ran i2c send test\r\n");    
     return XST_SUCCESS;
 }

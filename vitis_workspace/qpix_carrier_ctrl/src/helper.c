@@ -8,61 +8,99 @@ u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize)
     // handle incoming CMD Requests
     switch (RxCmd)
     {
-        /*
-         * MISC Cases for control
-        */
         case QPIX_PACKET:{          
             // send in qpix commands
             xil_printf("recv qpix packet\r\n");
             TxBuf[0] = QPIX_PACKET;
-            TxBuf[1] = 0xc0decafe;
+            TxBuf[1] = GOOD_PACKET;
+
+            // select the qpix reg we want to query to
+            u32 qpix_reg = RxBuf[1];
+
+            // make sure we received 3 quadlets, writing to valid qpix reg
+            if(TransferSize != 4*3 || qpix_reg > QPIX_NUM_REGS)
+                TxBuf[1] = BAD_PACKET
+            else{
+                Xil_Out32(TREG_QPIX_ADDR+0x04*qpix_reg, RxBuf[2]);
+            }
+
             TransferSize = 8;
             break;
-        }case SPI_PACKET:{          
-            // update local SPI registers
-            xil_printf("recv spi packet\r\n");
+        }case SPI_PACKET:{ // two SPI modules exist on each carrier
+                                         
             TxBuf[0] = SPI_PACKET;
-            TxBuf[1] = 0xc0decafe;
+            TxBuf[1] = GOOD_PACKET;
+
+            // bit handling 
+            u8 is_vcomp1 = (RxBuf[1] & (1<<31)) > 0;
+            u16 dac_val = RxBuf[1] & 0xffff;
+            xil_printf("recv %d spi packet: %04x\r\n", is_vcomp1, dac_val);
+
+            // update appropriate TREG
+            if(is_vcomp1)
+                Xil_Out32(VCOMP1_ADDR, dac_val);
+            else // update vcomp2
+                Xil_Out32(VCOMP2_ADDR, dac_val);
+
             TransferSize = 8;
             break;
         }case I2C_PACKET:{          
-            // test send
-            // u8 SendBuffer[] = {cmd, 0x1};
-            // IicSend(SendBuffer, sizeof(SendBuffer), IIC_SLAVE_ADDR);
-            xil_printf("recv i2c packet\r\n");
+
             TxBuf[0] = I2C_PACKET;
-            TxBuf[1] = 0xc0decafe;
+            TxBuf[1] = GOOD_PACKET;
+
+            // bit handling
+            u8 addr = (RxBuf[1] & 0xf00000) >> 20;
+            u8 pointer = RxBuf[1] & 0x30000; //  DACB | DACA
+            u8 ctrl = RxBuf[1] & 0xf000; // PD1 | PD0 | bCLR | bLDAC
+            u16 dac_value = RxBuf[1] & 0x0fff;
+            u8 dac1 = (ctrl << 4) | ((dac_value & 0x0f00) >> 8);
+            u8 dac2 = dac_value & 0xff;
+            u8 SendBuffer1[] = {pointer, dac1, dac2};
+            xil_printf("recv i2c @%02x packet, voltage = %04x\r\n", addr, dac_value);
+
+            // LVDS_CM
+            if(TransferSize == 4*2 && addr == IIC_SLAVE_ADDR_1)
+            {
+                IicSend(SendBuffer1, sizeof(SendBuffer1), IIC_SLAVE_ADDR_1);
+            }
+            // VCM1/2
+            else if(TransferSize == 4*2 && addr == IIC_SLAVE_ADDR_2)
+            {
+                IicSend(SendBuffer1, sizeof(SendBuffer1), IIC_SLAVE_ADDR_2);
+            }else{
+                TxBuf[1] = BAD_PACKET;
+            }
+
             TransferSize = 8;
-
-            // recv INA260, addrs 0x40 (3.3V) and 0x45 (1V)
-            // u8 RecvBuffer[] = {0,0};
-            // u8 cmdBuf[] = {0x01}; // address pointer set
-            // IicRecv(RecvBuffer, sizeof(RecvBuffer), 0x40,
-            //         cmdBuf, sizeof(cmdBuf));
-            // int i=0;
-            // for(; i<(int)sizeof(RecvBuffer); ++i)
-            // {
-            //     TxBuf[i] = (u32)RecvBuffer[i];
-            // }
-            // TransferSize = i*4;
-
-            // recv DS28CM00
-            // u8 RecvBuffer[] = {0,0,0,0,0,0,0,0,0};
-            // u8 cmdBuf[] = {0}; // set addr cmd to zero
-            // IicRecv(RecvBuffer, sizeof(RecvBuffer), IIC_SLAVE_ADDR,
-            //         cmdBuf, sizeof(cmdBuf));
-            // int i=0;
-            // for(; i<(int)sizeof(RecvBuffer); ++i)
-            // {
-            //     TxBuf[i] = (u32)RecvBuffer[i];
-            // }
-            // TransferSize = i*4;
             break;
+        /*
+         * MISC Cases for control
+        */
         }case CTRL_PACKET:{          
+
             // update local control, packet mask, etc
             xil_printf("recv ctrl packet\r\n");
             TxBuf[0] = CTRL_PACKET;
-            TxBuf[1] = 0xc0decafe;
+            TxBuf[1] = GOOD_PACKET;
+
+            u32 ctrl_cmd = RxBuf[1];
+
+            // make sure we received 3 quadlets
+            if(TransferSize != 4*3)
+                TxBuf[1] = BAD_PACKET
+            else{
+                // addrs defined in transactregimap.vhd
+                if(ctrl_cmd == CTRL_SHDN) // SHDN
+                    Xil_Out32(TREG_CTRL_ADDR+0x00, RxBuf[2]);
+                else if(ctrl_cmd == CTRL_MASK) // Mask
+                    Xil_Out32(TREG_CTRL_ADDR+0x04, RxBuf[2]);
+                else if(ctrl_cmd == CTRL_PLEN) // PktLength
+                    Xil_Out32(TREG_CTRL_ADDR+0x08, RxBuf[2]);
+                else // error
+                    TxBuf[1] = BAD_PACKET
+            }
+            
             TransferSize = 8;
             break;
         }default:{
