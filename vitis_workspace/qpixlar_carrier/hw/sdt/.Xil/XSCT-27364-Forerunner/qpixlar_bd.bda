@@ -175,12 +175,12 @@
         ],
         "vertices": {
             "V0": {
-                "VM": "design_1",
+                "VM": "qpixlar_bd",
                 "VT": "BC"
             },
             "V1": {
                 "VH": "2",
-                "VM": "design_1",
+                "VM": "qpixlar_bd",
                 "VT": "VR"
             },
             "V2": {

@@ -50,10 +50,12 @@ u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize)
             TxBuf[1] = GOOD_PACKET;
 
             // bit handling
-            u8 addr = (RxBuf[1] & 0xf00000) >> 20;
-            u8 pointer = RxBuf[1] & 0x30000; //  DACB | DACA
-            u8 ctrl = RxBuf[1] & 0xf000; // PD1 | PD0 | bCLR | bLDAC
+            u8 addr       = (RxBuf[1] & 0xff00000) >> 20;
+            u8 pointer    = (RxBuf[1] & 0x30000)   >> 16; // DACB | DACA
+            u8 ctrl       = (RxBuf[1] & 0xf000)    >> 12; //  PD1 | PD0 | bCLR | bLDAC
             u16 dac_value = RxBuf[1] & 0x0fff;
+
+            // build 3 bytes to send over i2c
             u8 dac1 = (ctrl << 4) | ((dac_value & 0x0f00) >> 8);
             u8 dac2 = dac_value & 0xff;
             u8 SendBuffer1[] = {pointer, dac1, dac2};
