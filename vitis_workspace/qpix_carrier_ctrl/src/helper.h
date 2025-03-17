@@ -18,6 +18,8 @@
 #define SPI_PACKET 0x00495053
 // ASCII XIPQ with endian-ness
 #define QPIX_PACKET 0x58495051
+// ASCII LRTC with endian-ness
+#define CTRL_PACKET 0x4C525443
 
 #define MAX_PKT_LEN_TX 1000
 #define MAX_PKT_LEN_RX 1000

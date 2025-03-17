@@ -58,6 +58,13 @@ u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize)
             // }
             // TransferSize = i*4;
             break;
+        }case CTRL_PACKET:{          
+            // update local control, packet mask, etc
+            xil_printf("recv ctrl packet\r\n");
+            TxBuf[0] = CTRL_PACKET;
+            TxBuf[1] = 0xc0decafe;
+            TransferSize = 8;
+            break;
         }default:{
             // echo, move data from Rx to Tx, then send
             for (u32 Index = 0; Index < TransferSize/4; Index ++) {
