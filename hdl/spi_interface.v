@@ -29,6 +29,9 @@ module spi_interface
     input                  new_reg,
     input [spi_length-1:0] spi_data,
 
+    // output
+    output reg done,
+
     // SPI Pins
     output reg bLDAC, // load DAC_bar
     output reg bCS,   // CS_bar
@@ -42,11 +45,12 @@ parameter spi_length = 16;
 parameter clock_div  = 16; // how many relative clock cycles should clk be divided down to acheive sck
 
 // local params
-localparam S_IDLE = 3'b00,
-           S_PREP = 3'b01,
-           S_SEND = 3'b10,
-           S_LDAC = 3'b11,
-           S_DONE = 3'b100;
+localparam S_IDLE      = 3'b00,
+           S_PREP      = 3'b01,
+           S_SEND      = 3'b10,
+           S_LDAC      = 3'b11,
+           S_PREP_LDAC = 3'b101,
+           S_DONE      = 3'b100;
 
 // local regs
 reg [2:0]  next_state;
@@ -146,6 +150,7 @@ always @(*) begin
           bCS   = 1'b1;
           SCK   = 1'b0;
           SDI   = 1'b0;
+          done  = 1'b0;
         end
 
         S_PREP:
@@ -154,6 +159,7 @@ always @(*) begin
           bCS   = 1'b0;
           SCK   = 1'b0;
           SDI   = spi_data[spi_length - cur_bit - 1]; // MSB first
+          done  = 1'b0;
         end
 
         S_SEND:
@@ -162,22 +168,34 @@ always @(*) begin
           bCS   = 1'b0;
           SCK   = 1'b1;
           SDI   = spi_data[spi_length - cur_bit - 1]; // MSB first
+          done  = 1'b0;
         end
 
-        S_LDAC:
+        S_PREP_LDAC:
         begin
           bLDAC = 1'b1;
           bCS   = 1'b1;
           SCK   = 1'b0;
           SDI   = 1'b0;
+          done  = 1'b0;
         end
 
-        S_DONE:
+        S_LDAC:
         begin
           bLDAC = 1'b0;
           bCS   = 1'b1;
           SCK   = 1'b0;
           SDI   = 1'b0;
+          done  = 1'b0;
+        end
+
+        S_DONE:
+        begin
+          bLDAC = 1'b1;
+          bCS   = 1'b1;
+          SCK   = 1'b0;
+          SDI   = 1'b0;
+          done  = 1'b1;
         end
 
         // S_IDLE equivalent
@@ -187,6 +205,7 @@ always @(*) begin
           bCS   = 1'b1;
           SCK   = 1'b0;
           SDI   = 1'b0;
+          done  = 1'b0;
         end
     endcase
 end
