@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x54B42A724CAF39C9",
+      "boundary_crc": "0xA4965BF6A1497F56",
       "device": "xc7z020clg400-1",
       "gen_directory": "../../../../qpixlar_carrier.gen/sources_1/bd/design_1",
       "name": "design_1",
@@ -42,7 +42,10 @@
       "fifo_generator_0": "",
       "qpix_carrier_data_ct_0": "",
       "qpix_carrier_fifo_ct_0": "",
-      "xlconstant_0": ""
+      "xlconstant_0": "",
+      "spi_interface_ctrl_0": "",
+      "xlconcat_1": "",
+      "xlconcat_2": ""
     },
     "interface_ports": {
       "DDR": {
@@ -403,6 +406,20 @@
         "direction": "I",
         "left": "15",
         "right": "0"
+      },
+      "SDI": {
+        "direction": "O"
+      },
+      "SCK": {
+        "direction": "O"
+      },
+      "bCS": {
+        "direction": "O",
+        "left": "1",
+        "right": "0"
+      },
+      "bLDAC": {
+        "direction": "O"
       }
     },
     "components": {
@@ -2349,6 +2366,22 @@
             "left": "31",
             "right": "0"
           },
+          "load_DAC1": {
+            "direction": "O"
+          },
+          "DAC_reg1": {
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "load_DAC2": {
+            "direction": "O"
+          },
+          "DAC_reg2": {
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
           "addr": {
             "direction": "I",
             "left": "31",
@@ -3353,6 +3386,92 @@
             "value": "0"
           }
         }
+      },
+      "spi_interface_ctrl_0": {
+        "vlnv": "xilinx.com:module_ref:spi_interface_ctrl:1.0",
+        "ip_revision": "1",
+        "xci_name": "design_1_spi_interface_ctrl_0_0",
+        "xci_path": "ip\\design_1_spi_interface_ctrl_0_0\\design_1_spi_interface_ctrl_0_0.xci",
+        "inst_hier_path": "spi_interface_ctrl_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "spi_interface_ctrl",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "user_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "design_1_processing_system7_0_0_FCLK_CLK1",
+                "value_src": "default_prop"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "new_reg": {
+            "direction": "I",
+            "left": "1",
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "2",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "spi_data": {
+            "direction": "I",
+            "left": "31",
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "32",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "bLDAC": {
+            "direction": "O"
+          },
+          "bCS": {
+            "direction": "O",
+            "left": "1",
+            "right": "0"
+          },
+          "SCK": {
+            "direction": "O"
+          },
+          "SDI": {
+            "direction": "O"
+          }
+        }
+      },
+      "xlconcat_1": {
+        "vlnv": "xilinx.com:ip:xlconcat:2.1",
+        "ip_revision": "6",
+        "xci_name": "design_1_xlconcat_1_0",
+        "xci_path": "ip\\design_1_xlconcat_1_0\\design_1_xlconcat_1_0.xci",
+        "inst_hier_path": "xlconcat_1"
+      },
+      "xlconcat_2": {
+        "vlnv": "xilinx.com:ip:xlconcat:2.1",
+        "ip_revision": "6",
+        "xci_name": "design_1_xlconcat_2_0",
+        "xci_path": "ip\\design_1_xlconcat_2_0\\design_1_xlconcat_2_0.xci",
+        "inst_hier_path": "xlconcat_2"
       }
     },
     "interface_nets": {
@@ -3464,6 +3583,18 @@
           "axis_data_fifo_0/s_axis_aresetn"
         ]
       },
+      "TransactRegiMap_0_DAC_reg1": {
+        "ports": [
+          "TransactRegiMap_0/DAC_reg1",
+          "xlconcat_2/In0"
+        ]
+      },
+      "TransactRegiMap_0_DAC_reg2": {
+        "ports": [
+          "TransactRegiMap_0/DAC_reg2",
+          "xlconcat_2/In1"
+        ]
+      },
       "TransactRegiMap_0_PacketLength": {
         "ports": [
           "TransactRegiMap_0/PacketLength",
@@ -3486,6 +3617,18 @@
         "ports": [
           "TransactRegiMap_0/ack",
           "AxiLiteSlaveSimple_0/ack"
+        ]
+      },
+      "TransactRegiMap_0_load_DAC1": {
+        "ports": [
+          "TransactRegiMap_0/load_DAC1",
+          "xlconcat_1/In0"
+        ]
+      },
+      "TransactRegiMap_0_load_DAC2": {
+        "ports": [
+          "TransactRegiMap_0/load_DAC2",
+          "xlconcat_1/In1"
         ]
       },
       "TransactRegiMap_0_rdata": {
@@ -3647,10 +3790,11 @@
           "axis_data_fifo_0/s_axis_aclk",
           "qpix_carrier_fifo_ct_0/clk",
           "fifo_generator_0/rd_clk",
-          "TransactRegiMap_0/clk",
           "proc_sys_reset_0/slowest_sync_clk",
           "processing_system7_0/M_AXI_GP0_ACLK",
-          "processing_system7_0/S_AXI_HP0_ACLK"
+          "processing_system7_0/S_AXI_HP0_ACLK",
+          "TransactRegiMap_0/clk",
+          "spi_interface_ctrl_0/clk"
         ]
       },
       "processing_system7_0_FCLK_RESET0_N": {
@@ -3815,10 +3959,46 @@
           "opad_startup"
         ]
       },
+      "spi_interface_ctrl_0_SCK": {
+        "ports": [
+          "spi_interface_ctrl_0/SCK",
+          "SCK"
+        ]
+      },
+      "spi_interface_ctrl_0_SDI": {
+        "ports": [
+          "spi_interface_ctrl_0/SDI",
+          "SDI"
+        ]
+      },
+      "spi_interface_ctrl_0_bCS": {
+        "ports": [
+          "spi_interface_ctrl_0/bCS",
+          "bCS"
+        ]
+      },
+      "spi_interface_ctrl_0_bLDAC": {
+        "ports": [
+          "spi_interface_ctrl_0/bLDAC",
+          "bLDAC"
+        ]
+      },
       "xlconcat_0_dout": {
         "ports": [
           "xlconcat_0/dout",
           "processing_system7_0/IRQ_F2P"
+        ]
+      },
+      "xlconcat_1_dout": {
+        "ports": [
+          "xlconcat_1/dout",
+          "spi_interface_ctrl_0/new_reg"
+        ]
+      },
+      "xlconcat_2_dout": {
+        "ports": [
+          "xlconcat_2/dout",
+          "spi_interface_ctrl_0/spi_data"
         ]
       },
       "xlconstant_0_dout": {
@@ -3826,7 +4006,8 @@
           "xlconstant_0/dout",
           "qpix_carrier_fifo_ct_0/rst",
           "qpix_carrier_data_ct_0/rst",
-          "fifo_generator_0/rst"
+          "fifo_generator_0/rst",
+          "spi_interface_ctrl_0/rst"
         ]
       }
     },

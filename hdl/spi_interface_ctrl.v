@@ -35,16 +35,15 @@ parameter clock_div  = 16 // how many relative clock cycles should clk be divide
     input [spi_slaves-1:0][spi_length-1:0] spi_data,
 
     // SPI Pins
-    output reg                  bLDAC, // load DAC_bar
-    output reg [spi_slaves-1:0] bCS,   // CS_bar
-    output reg                  SCK,   // S_clock
-    output reg                  SDI    // Serial data 'in', out from FPGA to the chip
+    output                      bLDAC, // load DAC_bar
+    output     [spi_slaves-1:0] bCS,   // CS_bar
+    output                      SCK,   // S_clock
+    output                      SDI    // Serial data 'in', out from FPGA to the chip
 ) ;
-
-reg [spi_slaves-1:0] r_bLDAC,
-                     buf_bLDAC,
-                     r_SCK,
-                     r_SDI;
+reg  [spi_slaves-1:0] buf_bLDAC;
+wire [spi_slaves-1:0] r_bLDAC,
+                      r_SCK,
+                      r_SDI;
 
 reg [spi_slaves-1:0] dac_stat; // register value to hold new_reg requests and LDACs
 reg [spi_slaves-1:0] load_dac; // sent to control which spi instance is in control

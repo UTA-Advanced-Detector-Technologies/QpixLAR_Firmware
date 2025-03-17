@@ -84,6 +84,8 @@ architecture behav of TransactRegiMap is
    signal s_SHDN         : std_logic_vector(15 downto 0);
    signal s_QpixMask     : std_logic_vector(15 downto 0);
    signal s_PacketLength : std_logic_vector(31 downto 0);
+   signal s_DAC_reg1     : std_logic_vector(15 downto 0);
+   signal s_DAC_reg2     : std_logic_vector(15 downto 0);
 
 begin
 
