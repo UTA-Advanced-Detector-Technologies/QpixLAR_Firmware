@@ -1,12 +1,12 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xA4965BF67D6E9181",
+      "boundary_crc": "0xA4965BF6A1497F56",
       "device": "xc7z020clg400-1",
       "gen_directory": "../../../../qpixlar_carrier.gen/sources_1/bd/qpixlar_bd",
       "name": "qpixlar_bd",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
-      "synth_flow_mode": "Hierarchical",
+      "synth_flow_mode": "None",
       "tool_version": "2024.1",
       "validated": "true"
     },
@@ -3513,8 +3513,8 @@
           "proc_sys_reset_0/slowest_sync_clk",
           "processing_system7_0/M_AXI_GP0_ACLK",
           "processing_system7_0/S_AXI_HP0_ACLK",
-          "spi_interface_ctrl_0/clk",
-          "TransactRegiMap_0/clk"
+          "TransactRegiMap_0/clk",
+          "spi_interface_ctrl_0/clk"
         ]
       },
       "processing_system7_0_FCLK_RESET0_N": {

@@ -95,7 +95,7 @@ assign bLDAC = r_bLDAC[index];
 genvar i;
 generate
     for (i = 0; i < spi_slaves; i = i + 1) begin : SPI_INST
-        example #(.clock_div(clock_div)) spi_instance (
+        spi_interface #(.clock_div(clock_div)) spi_instance (
             .clk(clk),
             .rst(rst),
             // inputs
