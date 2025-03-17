@@ -19,7 +19,7 @@ u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize)
 
             // make sure we received 3 quadlets, writing to valid qpix reg
             if(TransferSize != 4*3 || qpix_reg > QPIX_NUM_REGS)
-                TxBuf[1] = BAD_PACKET
+                TxBuf[1] = BAD_PACKET;
             else{
                 Xil_Out32(TREG_QPIX_ADDR+0x04*qpix_reg, RxBuf[2]);
             }
@@ -88,7 +88,7 @@ u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize)
 
             // make sure we received 3 quadlets
             if(TransferSize != 4*3)
-                TxBuf[1] = BAD_PACKET
+                TxBuf[1] = BAD_PACKET;
             else{
                 // addrs defined in transactregimap.vhd
                 if(ctrl_cmd == CTRL_SHDN) // SHDN
@@ -98,7 +98,7 @@ u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize)
                 else if(ctrl_cmd == CTRL_PLEN) // PktLength
                     Xil_Out32(TREG_CTRL_ADDR+0x08, RxBuf[2]);
                 else // error
-                    TxBuf[1] = BAD_PACKET
+                    TxBuf[1] = BAD_PACKET;
             }
             
             TransferSize = 8;
