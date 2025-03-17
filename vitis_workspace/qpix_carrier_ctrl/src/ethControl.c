@@ -33,16 +33,24 @@ void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
 	print_ip("Gateway : ", gw);
 }
 
-static struct netif server_netif;
-struct netif *echo_netif;
-
-int SetupEthernet()
+int SetupEthernet(unsigned char* a)
 {
 	ip_addr_t ipaddr, netmask, gw;
 
 	/* the mac address of the board. this should be unique per board */
 	unsigned char mac_ethernet_address[] =
-	{ 0x00, 0x0a, 0x35, 0x00, 0x01, 0x02 };
+	{ 0x00, 0x0c, 0x35, 0x00, 0x01, 0x02 }; // note, leave this first byte to 00 to allow dhcp
+
+    for(int i=1; i<6; ++i)
+    {
+        mac_ethernet_address[i] = a[i];
+    }
+    for(int i=0; i<6; ++i)
+    {
+		xil_printf("%d=%02x\r\n", i, mac_ethernet_address[i]);
+    }
+
+
 
 	echo_netif = &server_netif;
 	init_platform();
@@ -139,8 +147,11 @@ err_t recv_callback(void *arg, struct tcp_pcb *tpcb,
 		u32 recv_size = p->tot_len; // number of bytes received
 		if(recv_size%4!=0)
 			recv_size += 4-(recv_size%4);
-		u16 size = HandleCmdRequest(p->payload, &TxEthBufferPtr, recv_size);
-		err = tcp_write(tpcb, TxEthBufferPtr, size, 1);
+		memcpy(RxEthBufferPtr, p->payload, recv_size);
+        Xil_DCacheFlushRange((UINTPTR)(RxEthBufferPtr), recv_size);
+		u32 size = HandleCmdRequest(RxEthBufferPtr, &TxEthBufferPtr, recv_size);
+        Xil_DCacheFlushRange((UINTPTR)(TxEthBufferPtr), size);
+		err = tcp_write(tpcb, TxEthBufferPtr+2, size-8, 1);
 	} else
 		xil_printf("no space in tcp_sndbuf\n\r");
 
@@ -150,19 +161,18 @@ err_t recv_callback(void *arg, struct tcp_pcb *tpcb,
 	return ERR_OK;
 }
 
+int tcp_connection = 0;
 err_t accept_callback(void *arg, struct tcp_pcb *newpcb, err_t err)
 {
-	static int connection = 1;
-
 	/* set the receive callback for this connection */
 	tcp_recv(newpcb, recv_callback);
 
 	/* just use an integer number indicating the connection id as the
 	   callback argument */
-	tcp_arg(newpcb, (void*)(UINTPTR)connection);
+    tcp_connection++;
+	tcp_arg(newpcb, (void*)(UINTPTR)tcp_connection);
 
-	/* increment for subsequent accepted connections */
-	connection++;
+    xil_printf("new tcp con.\r\n");
 
 	return ERR_OK;
 }

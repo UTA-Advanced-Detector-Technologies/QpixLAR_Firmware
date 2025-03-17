@@ -2,43 +2,34 @@
 #include <lwip/pbuf.h>
 
 struct udp_pcb *pcb;
+u8 send_udp = 0;
 
 void udp_packet_send(u32* txData, u16 size_t)
 {
-	// u32 *payload;
-	// static int packet_id;
-	u8_t i;
 	u8_t retries = MAX_SEND_RETRY;
 	struct pbuf *packet;
 	err_t err;
 
-	for (i = 0; i < NUM_OF_PARALLEL_CLIENTS; i++) {
+	packet = pbuf_alloc(PBUF_TRANSPORT, 4*size_t, PBUF_RAM);
 
-		packet = pbuf_alloc(PBUF_TRANSPORT, 4*size_t, PBUF_RAM);
-
-		if (!packet) {
-			xil_printf("error allocating pbuf to send\r\n");
-			return;
-		} else {
-			memcpy(packet->payload, txData, 4*size_t);
-		}
-
-		/* always increment the id */
-		// payload = (u16*) (packet->payload);
-		// payload[size_t / 2] = htonl(packet_id);
-
-		while (retries) {
-			err = udp_send(pcb, packet);
-			if (err != ERR_OK) {
-				xil_printf("Error on udp_send: %d\r\n", err);
-				retries--;
-				usleep(100);
-			} else {
-				break;
-			}
-		}
-		pbuf_free(packet);
+	if (!packet) {
+		xil_printf("error allocating pbuf to send\r\n");
+		return;
+	} else {
+		memcpy(packet->payload, txData, 4*size_t);
 	}
+
+	while (retries) {
+		err = udp_send(pcb, packet);
+		if (err != ERR_OK) {
+			xil_printf("Error on udp_send: %d\r\n", err);
+			retries--;
+			usleep(100);
+		} else {
+			break;
+		}
+	}
+	pbuf_free(packet);
 	// packet_id++;
 }
 
@@ -49,6 +40,10 @@ void udp_echo_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr
     if (p != NULL) {
         /* send received packet back to sender */
         udp_sendto(pcb, p, addr, port);
+
+        // configure responses to this location
+        pcb->remote_ip = *addr;
+        pcb->remote_port = port;
 
         /* free the pbuf */
         pbuf_free(p);

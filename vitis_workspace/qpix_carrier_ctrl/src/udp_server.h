@@ -42,6 +42,7 @@
 extern struct udp_pcb *pcb;
 extern u8 send_udp;
 
+extern int tcp_connection;
 
 /* seconds between periodic bandwidth reports */
 #define INTERIM_REPORT_INTERVAL 5
