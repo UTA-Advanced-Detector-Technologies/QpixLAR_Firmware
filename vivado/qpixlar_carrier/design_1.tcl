@@ -1,6 +1,6 @@
 
 ################################################################
-# This is a generated script based on design: design_1
+# This is a generated script based on design: qpixlar_bd
 #
 # Though there are limitations about the generated script,
 # the main purpose of this utility is to make learning
@@ -41,7 +41,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 ################################################################
 
 # To test this script, run the following commands from Vivado Tcl console:
-# source design_1_script.tcl
+# source qpixlar_bd_script.tcl
 
 
 # The design that will be created by this Tcl script contains the following 
@@ -140,10 +140,10 @@ if { $bCheckIPs == 1 } {
 xilinx.com:ip:processing_system7:5.5\
 xilinx.com:ip:proc_sys_reset:5.0\
 xilinx.com:ip:axi_dma:7.1\
-xilinx.com:ip:xlconcat:2.1\
 xilinx.com:ip:axis_data_fifo:2.0\
 xilinx.com:ip:fifo_generator:13.2\
 xilinx.com:ip:xlconstant:1.1\
+xilinx.com:ip:xlconcat:2.1\
 "
 
    set list_ips_missing ""
@@ -677,9 +677,6 @@ Reset#Enet 0#Enet 0} \
   ] $axi_mem_intercon
 
 
-  # Create instance: xlconcat_0, and set properties
-  set xlconcat_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_0 ]
-
   # Create instance: qpix_reg_rtl_0, and set properties
   set block_name qpix_reg_rtl
   set block_cell_name qpix_reg_rtl_0
@@ -693,6 +690,8 @@ Reset#Enet 0#Enet 0} \
   
   # Create instance: axis_data_fifo_0, and set properties
   set axis_data_fifo_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_data_fifo:2.0 axis_data_fifo_0 ]
+  set_property CONFIG.FIFO_MODE {2} $axis_data_fifo_0
+
 
   # Create instance: fifo_generator_0, and set properties
   set fifo_generator_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:fifo_generator:13.2 fifo_generator_0 ]
@@ -786,7 +785,7 @@ Reset#Enet 0#Enet 0} \
   connect_bd_net -net TransactRegiMap_0_reg_7 [get_bd_pins TransactRegiMap_0/reg_7] [get_bd_pins qpix_reg_rtl_0/reg_7]
   connect_bd_net -net TransactRegiMap_0_reg_8 [get_bd_pins TransactRegiMap_0/reg_8] [get_bd_pins qpix_reg_rtl_0/reg_8]
   connect_bd_net -net TransactRegiMap_0_reg_9 [get_bd_pins TransactRegiMap_0/reg_9] [get_bd_pins qpix_reg_rtl_0/reg_9]
-  connect_bd_net -net axi_dma_0_s2mm_introut [get_bd_pins axi_dma_0/s2mm_introut] [get_bd_pins xlconcat_0/In1]
+  connect_bd_net -net axi_dma_0_s2mm_introut [get_bd_pins axi_dma_0/s2mm_introut] [get_bd_pins processing_system7_0/IRQ_F2P]
   connect_bd_net -net fifo_generator_0_dout [get_bd_pins fifo_generator_0/dout] [get_bd_pins qpix_carrier_fifo_ct_0/fifo_dout]
   connect_bd_net -net fifo_generator_0_empty [get_bd_pins fifo_generator_0/empty] [get_bd_pins qpix_carrier_fifo_ct_0/fifo_empty]
   connect_bd_net -net fifo_generator_0_valid [get_bd_pins fifo_generator_0/valid] [get_bd_pins qpix_carrier_fifo_ct_0/fifo_valid]
@@ -797,7 +796,7 @@ Reset#Enet 0#Enet 0} \
   connect_bd_net -net opad_DataOut2_0_1 [get_bd_ports opad_DataOut2] [get_bd_pins qpix_reg_rtl_0/opad_DataOut2]
   connect_bd_net -net opad_deltaT_0_1 [get_bd_ports opad_deltaT] [get_bd_pins qpix_reg_rtl_0/opad_deltaT]
   connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins qpix_reg_rtl_0/clk200] [get_bd_pins qpix_carrier_data_ct_0/clk] [get_bd_pins fifo_generator_0/wr_clk]
-  connect_bd_net -net processing_system7_0_FCLK_CLK1 [get_bd_pins processing_system7_0/FCLK_CLK1] [get_bd_pins qpix_reg_rtl_0/clk] [get_bd_pins axi_mem_intercon/ACLK] [get_bd_pins axi_mem_intercon/S00_ACLK] [get_bd_pins axi_mem_intercon/M00_ACLK] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins axi_dma_0/s_axi_lite_aclk] [get_bd_pins axi_dma_0/m_axi_s2mm_aclk] [get_bd_pins AxiLiteSlaveSimple_0/axi_aclk] [get_bd_pins axis_data_fifo_0/s_axis_aclk] [get_bd_pins qpix_carrier_fifo_ct_0/clk] [get_bd_pins fifo_generator_0/rd_clk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins processing_system7_0/S_AXI_HP0_ACLK] [get_bd_pins spi_interface_ctrl_0/clk] [get_bd_pins TransactRegiMap_0/clk]
+  connect_bd_net -net processing_system7_0_FCLK_CLK1 [get_bd_pins processing_system7_0/FCLK_CLK1] [get_bd_pins qpix_reg_rtl_0/clk] [get_bd_pins axi_mem_intercon/ACLK] [get_bd_pins axi_mem_intercon/S00_ACLK] [get_bd_pins axi_mem_intercon/M00_ACLK] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins axi_dma_0/s_axi_lite_aclk] [get_bd_pins axi_dma_0/m_axi_s2mm_aclk] [get_bd_pins AxiLiteSlaveSimple_0/axi_aclk] [get_bd_pins axis_data_fifo_0/s_axis_aclk] [get_bd_pins qpix_carrier_fifo_ct_0/clk] [get_bd_pins fifo_generator_0/rd_clk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins processing_system7_0/S_AXI_HP0_ACLK] [get_bd_pins TransactRegiMap_0/clk] [get_bd_pins spi_interface_ctrl_0/clk]
   connect_bd_net -net processing_system7_0_FCLK_RESET0_N [get_bd_pins processing_system7_0/FCLK_RESET0_N] [get_bd_pins proc_sys_reset_0/ext_reset_in]
   connect_bd_net -net qpix_carrier_data_ct_0_qpixCtrlOut [get_bd_pins qpix_carrier_data_ct_0/qpixCtrlOut] [get_bd_pins fifo_generator_0/din]
   connect_bd_net -net qpix_carrier_data_ct_0_qpixCtrlOutValid [get_bd_pins qpix_carrier_data_ct_0/qpixCtrlOutValid] [get_bd_pins fifo_generator_0/wr_en]
@@ -829,7 +828,6 @@ Reset#Enet 0#Enet 0} \
   connect_bd_net -net spi_interface_ctrl_0_SDI [get_bd_pins spi_interface_ctrl_0/SDI] [get_bd_ports SDI]
   connect_bd_net -net spi_interface_ctrl_0_bCS [get_bd_pins spi_interface_ctrl_0/bCS] [get_bd_ports bCS]
   connect_bd_net -net spi_interface_ctrl_0_bLDAC [get_bd_pins spi_interface_ctrl_0/bLDAC] [get_bd_ports bLDAC]
-  connect_bd_net -net xlconcat_0_dout [get_bd_pins xlconcat_0/dout] [get_bd_pins processing_system7_0/IRQ_F2P]
   connect_bd_net -net xlconcat_1_dout [get_bd_pins xlconcat_1/dout] [get_bd_pins spi_interface_ctrl_0/new_reg]
   connect_bd_net -net xlconcat_2_dout [get_bd_pins xlconcat_2/dout] [get_bd_pins spi_interface_ctrl_0/spi_data]
   connect_bd_net -net xlconstant_0_dout [get_bd_pins xlconstant_0/dout] [get_bd_pins qpix_carrier_fifo_ct_0/rst] [get_bd_pins qpix_carrier_data_ct_0/rst] [get_bd_pins fifo_generator_0/rst] [get_bd_pins spi_interface_ctrl_0/rst]

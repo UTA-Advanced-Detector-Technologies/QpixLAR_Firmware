@@ -30,7 +30,6 @@
           "auto_us": ""
         }
       },
-      "xlconcat_0": "",
       "qpix_reg_rtl_0": "",
       "axis_data_fifo_0": "",
       "fifo_generator_0": "",
@@ -2692,13 +2691,6 @@
           }
         }
       },
-      "xlconcat_0": {
-        "vlnv": "xilinx.com:ip:xlconcat:2.1",
-        "ip_revision": "6",
-        "xci_name": "qpixlar_bd_xlconcat_0_0",
-        "xci_path": "ip\\qpixlar_bd_xlconcat_0_0\\qpixlar_bd_xlconcat_0_0.xci",
-        "inst_hier_path": "xlconcat_0"
-      },
       "qpix_reg_rtl_0": {
         "vlnv": "xilinx.com:module_ref:qpix_reg_rtl:1.0",
         "ip_revision": "1",
@@ -2894,6 +2886,11 @@
         "xci_name": "qpixlar_bd_axis_data_fifo_0_0",
         "xci_path": "ip\\qpixlar_bd_axis_data_fifo_0_0\\qpixlar_bd_axis_data_fifo_0_0.xci",
         "inst_hier_path": "axis_data_fifo_0",
+        "parameters": {
+          "FIFO_MODE": {
+            "value": "2"
+          }
+        },
         "interface_ports": {
           "S_AXIS": {
             "vlnv": "xilinx.com:interface:axis_rtl:1.0",
@@ -3428,7 +3425,7 @@
       "axi_dma_0_s2mm_introut": {
         "ports": [
           "axi_dma_0/s2mm_introut",
-          "xlconcat_0/In1"
+          "processing_system7_0/IRQ_F2P"
         ]
       },
       "fifo_generator_0_dout": {
@@ -3701,12 +3698,6 @@
         "ports": [
           "spi_interface_ctrl_0/bLDAC",
           "bLDAC"
-        ]
-      },
-      "xlconcat_0_dout": {
-        "ports": [
-          "xlconcat_0/dout",
-          "processing_system7_0/IRQ_F2P"
         ]
       },
       "xlconcat_1_dout": {

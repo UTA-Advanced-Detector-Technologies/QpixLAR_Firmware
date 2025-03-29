@@ -1,6 +1,7 @@
 #include "dmaControl.h"
 #include "udp_server.h"
 #include <sleep.h>
+#include <xil_printf.h>
 #include <xil_types.h>
 
 volatile u32 Error = 0;
@@ -62,26 +63,21 @@ static int InitDMA(u32 base_addr, XAxiDma* dma, u32* rxBase, u32* txBase,
     /* Disable all interrupts before setup */
     XAxiDma_IntrDisable(dma, XAXIDMA_IRQ_ALL_MASK,
                 XAXIDMA_DMA_TO_DEVICE);
-    XAxiDma_IntrDisable(dma, XAXIDMA_IRQ_ALL_MASK,
-                XAXIDMA_DEVICE_TO_DMA);
 
     /* Enable all interrupts */
     XAxiDma_IntrEnable(dma, XAXIDMA_IRQ_ALL_MASK,
                XAXIDMA_DMA_TO_DEVICE);
-    XAxiDma_IntrEnable(dma, XAXIDMA_IRQ_ALL_MASK,
-               XAXIDMA_DEVICE_TO_DMA);
+
 
     /* Flush the buffers before the DMA transfer, in case the Data Cache
      * is enabled
      */
-    Xil_DCacheFlushRange((UINTPTR)txBase, MAX_PKT_LEN_RX*8);
     Xil_DCacheFlushRange((UINTPTR)rxBase, MAX_PKT_LEN_TX*8);
 
     /* 
      * Config base and control registers to set pathing
     */
     RxArmDMA(base_addr, (u32)rxBase);
-    TxArmDMA(base_addr, (u32)txBase);
 
     return Status;
 }
@@ -94,6 +90,8 @@ static void RxUDPIntrHandler(void *Callback, u32 base_addr, u32* rx_addr)
     XAxiDma *AxiDmaInst = (XAxiDma *)Callback;
 
     u32 reg_stat = Xil_In32(base_addr+0x34); // read s2mm status reg
+
+    xil_printf("rx udp packet to send out\r\n");
 
     /* Acknowledge pending interrupts */
     XAxiDma_IntrAckIrq(AxiDmaInst, reg_stat, XAXIDMA_DEVICE_TO_DMA);
@@ -161,7 +159,7 @@ static void RxUDPIntrHandler(void *Callback, u32 base_addr, u32* rx_addr)
 // sent over UDP
 static void RxIntrHandler(void *Callback)
 {
-    RxUDPIntrHandler(Callback, XPAR_AXI_DMA_0_BASEADDR, RX_ETH_BUFFER_BASE);
+    RxUDPIntrHandler(Callback, XPAR_AXI_DMA_0_BASEADDR, RX_DMA_BUFFER_BASE);
 }
 
 // Tx functions

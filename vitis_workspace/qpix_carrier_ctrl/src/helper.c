@@ -34,7 +34,6 @@ u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize)
             // bit handling 
             u8 is_vcomp1 = (RxBuf[1] & (1<<31)) > 0;
             u16 dac_val = RxBuf[1] & 0xffff;
-            xil_printf("recv %d spi packet: %04x\r\n", is_vcomp1, dac_val);
 
             // update appropriate TREG
             if(is_vcomp1)
@@ -59,7 +58,6 @@ u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize)
             u8 dac1 = (ctrl << 4) | ((dac_value & 0x0f00) >> 8);
             u8 dac2 = dac_value & 0xff;
             u8 SendBuffer1[] = {pointer, dac1, dac2};
-            xil_printf("recv i2c @%02x packet, voltage = %04x\r\n", addr, dac_value);
 
             // LVDS_CM
             if(TransferSize == 4*2 && addr == IIC_SLAVE_ADDR_1)
@@ -82,7 +80,6 @@ u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize)
         }case CTRL_PACKET:{          
 
             // update local control, packet mask, etc
-            xil_printf("recv ctrl packet\r\n");
             TxBuf[0] = CTRL_PACKET;
             TxBuf[1] = GOOD_PACKET;
 
