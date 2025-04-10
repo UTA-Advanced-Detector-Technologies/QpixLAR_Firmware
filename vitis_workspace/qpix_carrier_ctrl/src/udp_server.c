@@ -10,13 +10,13 @@ void udp_packet_send(u32* txData, u16 size_t)
 	struct pbuf *packet;
 	err_t err;
 
-	packet = pbuf_alloc(PBUF_TRANSPORT, 4*size_t, PBUF_RAM);
+	packet = pbuf_alloc(PBUF_TRANSPORT, size_t, PBUF_RAM);
 
 	if (!packet) {
 		xil_printf("error allocating pbuf to send\r\n");
 		return;
 	} else {
-		memcpy(packet->payload, txData, 4*size_t);
+		memcpy(packet->payload, txData, size_t);
 	}
 
 	while (retries) {
