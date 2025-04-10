@@ -41,6 +41,7 @@ entity TransactRegiMap is
       reg_7       : out std_logic_vector(31 downto 0);
       reg_8       : out std_logic_vector(31 downto 0);
       reg_9       : out std_logic_vector(31 downto 0);
+      reg_a       : out std_logic_vector(31 downto 0);
 
       -- 
       -- Qpix Carrier Specific registers
@@ -53,6 +54,8 @@ entity TransactRegiMap is
       DAC_reg1     : out std_logic_vector(15 downto 0);
       load_DAC2    : out std_logic;
       DAC_reg2     : out std_logic_vector(15 downto 0);
+
+      force_valid  : out std_logic;
 
       -- interface to AXI slave module
       addr        : in  std_logic_vector(31 downto 0);
@@ -79,6 +82,7 @@ architecture behav of TransactRegiMap is
    signal s_reg_7      : std_logic_vector(31 downto 0);
    signal s_reg_8      : std_logic_vector(31 downto 0);
    signal s_reg_9      : std_logic_vector(31 downto 0);
+   signal s_reg_a      : std_logic_vector(31 downto 0);
 
    -- qpix carrier specific
    signal s_SHDN         : std_logic_vector(15 downto 0);
@@ -86,6 +90,7 @@ architecture behav of TransactRegiMap is
    signal s_PacketLength : std_logic_vector(31 downto 0);
    signal s_DAC_reg1     : std_logic_vector(15 downto 0);
    signal s_DAC_reg2     : std_logic_vector(15 downto 0);
+   signal s_force_valid  : std_logic;
 
 begin
 
@@ -110,13 +115,15 @@ begin
          reg_7 <= s_reg_7;
          reg_8 <= s_reg_8;
          reg_9 <= s_reg_9;
+         reg_a <= s_reg_a;
 
          -- carrier specific
          SHDN         <= s_SHDN;
          QpixMask     <= s_QpixMask;
          PacketLength <= s_PacketLength;
          DAC_reg1     <= s_DAC_reg1;
-         DAC_reg2     <= s_DAC_reg2;
+
+         force_valid  <= s_force_valid;
          
          -- pulsed values
          load_DAC1 <= '0';
@@ -203,6 +210,14 @@ begin
                   rdata <= s_reg_9;
                end if;
 
+            -- ..used to select deltaT synchronization
+            when x"002C" =>
+               if wen = '1' and req = '1' then
+                  s_reg_a <= wdata;
+               else
+                  rdata <= s_reg_a;
+               end if;
+
             -- control register offsets
             when x"1000" =>
                if wen = '1' and req = '1' then
@@ -230,6 +245,7 @@ begin
                   s_DAC_reg1 <= wdata(15 downto 0);
                   load_DAC1  <= '1';
                else
+                  rdata    <= (others => '0');
                   rdata(15 downto 0) <= s_DAC_reg1;
                end if;
 
@@ -238,7 +254,18 @@ begin
                   s_DAC_reg2 <= wdata(15 downto 0);
                   load_DAC2  <= '1';
                else
+                  rdata    <= (others => '0');
                   rdata(15 downto 0) <= s_DAC_reg2;
+               end if;
+
+            -- enable a valid override to enable
+            -- any and all triggers from LTC chips
+            when x"1014" =>
+               if wen = '1' and req = '1' then
+                  s_force_valid <= wdata(0);
+               else
+                  rdata    <= (others => '0');
+                  rdata(0) <= s_force_valid;
                end if;
 
             when others =>

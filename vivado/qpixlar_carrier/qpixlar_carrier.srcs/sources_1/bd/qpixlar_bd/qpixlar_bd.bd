@@ -2018,7 +2018,7 @@
                 "value_src": "constant"
               },
               "FREQ_HZ": {
-                "value": "50000000",
+                "value": "5e+07",
                 "value_src": "user_prop"
               },
               "ID_WIDTH": {
@@ -2223,7 +2223,7 @@
                 "value_src": "constant"
               },
               "FREQ_HZ": {
-                "value": "50000000",
+                "value": "5e+07",
                 "value_src": "user_prop"
               },
               "CLK_DOMAIN": {
@@ -2285,7 +2285,7 @@
             "direction": "I",
             "parameters": {
               "FREQ_HZ": {
-                "value": "50000000",
+                "value": "5e+07",
                 "value_src": "user_prop"
               },
               "CLK_DOMAIN": {
@@ -2344,6 +2344,11 @@
             "left": "31",
             "right": "0"
           },
+          "reg_a": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
           "SHDN": {
             "direction": "O",
             "left": "15",
@@ -2374,6 +2379,9 @@
             "direction": "O",
             "left": "15",
             "right": "0"
+          },
+          "force_valid": {
+            "direction": "O"
           },
           "addr": {
             "direction": "I",
@@ -2708,7 +2716,7 @@
             "direction": "I",
             "parameters": {
               "FREQ_HZ": {
-                "value": "50000000",
+                "value": "5e+07",
                 "value_src": "user_prop"
               },
               "CLK_DOMAIN": {
@@ -2721,7 +2729,7 @@
             "direction": "I",
             "parameters": {
               "FREQ_HZ": {
-                "value": "200000000",
+                "value": "2e+08",
                 "value_src": "user_prop"
               },
               "PHASE": {
@@ -2877,6 +2885,14 @@
             "direction": "I",
             "left": "31",
             "right": "0"
+          },
+          "reg_a": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "sample_valid": {
+            "direction": "O"
           }
         }
       },
@@ -2946,7 +2962,7 @@
                 "value_src": "constant"
               },
               "FREQ_HZ": {
-                "value": "200000000",
+                "value": "2e+08",
                 "value_src": "user_prop"
               },
               "CLK_DOMAIN": {
@@ -2957,6 +2973,12 @@
           },
           "rst": {
             "type": "rst",
+            "direction": "I"
+          },
+          "sample_valid": {
+            "direction": "I"
+          },
+          "force_valid": {
             "direction": "I"
           },
           "Q": {
@@ -3029,7 +3051,7 @@
                 "value_src": "constant"
               },
               "FREQ_HZ": {
-                "value": "50000000",
+                "value": "5e+07",
                 "value_src": "user_prop"
               },
               "CLK_DOMAIN": {
@@ -3073,7 +3095,7 @@
                 "value_src": "constant"
               },
               "FREQ_HZ": {
-                "value": "50000000",
+                "value": "5e+07",
                 "value_src": "user_prop"
               },
               "CLK_DOMAIN": {
@@ -3140,7 +3162,7 @@
                 "value_src": "constant"
               },
               "FREQ_HZ": {
-                "value": "50000000",
+                "value": "5e+07",
                 "value_src": "user_prop"
               },
               "CLK_DOMAIN": {
@@ -3344,6 +3366,12 @@
           "AxiLiteSlaveSimple_0/ack"
         ]
       },
+      "TransactRegiMap_0_force_valid": {
+        "ports": [
+          "TransactRegiMap_0/force_valid",
+          "qpix_carrier_data_ct_0/force_valid"
+        ]
+      },
       "TransactRegiMap_0_load_DAC1": {
         "ports": [
           "TransactRegiMap_0/load_DAC1",
@@ -3422,6 +3450,12 @@
           "qpix_reg_rtl_0/reg_9"
         ]
       },
+      "TransactRegiMap_0_reg_a": {
+        "ports": [
+          "TransactRegiMap_0/reg_a",
+          "qpix_reg_rtl_0/reg_a"
+        ]
+      },
       "axi_dma_0_s2mm_introut": {
         "ports": [
           "axi_dma_0/s2mm_introut",
@@ -3485,15 +3519,14 @@
       "processing_system7_0_FCLK_CLK0": {
         "ports": [
           "processing_system7_0/FCLK_CLK0",
-          "qpix_reg_rtl_0/clk200",
+          "fifo_generator_0/wr_clk",
           "qpix_carrier_data_ct_0/clk",
-          "fifo_generator_0/wr_clk"
+          "qpix_reg_rtl_0/clk200"
         ]
       },
       "processing_system7_0_FCLK_CLK1": {
         "ports": [
           "processing_system7_0/FCLK_CLK1",
-          "qpix_reg_rtl_0/clk",
           "axi_mem_intercon/ACLK",
           "axi_mem_intercon/S00_ACLK",
           "axi_mem_intercon/M00_ACLK",
@@ -3510,8 +3543,9 @@
           "proc_sys_reset_0/slowest_sync_clk",
           "processing_system7_0/M_AXI_GP0_ACLK",
           "processing_system7_0/S_AXI_HP0_ACLK",
+          "spi_interface_ctrl_0/clk",
           "TransactRegiMap_0/clk",
-          "spi_interface_ctrl_0/clk"
+          "qpix_reg_rtl_0/clk"
         ]
       },
       "processing_system7_0_FCLK_RESET0_N": {
@@ -3676,6 +3710,12 @@
           "opad_startup"
         ]
       },
+      "qpix_reg_rtl_0_sample_valid": {
+        "ports": [
+          "qpix_reg_rtl_0/sample_valid",
+          "qpix_carrier_data_ct_0/sample_valid"
+        ]
+      },
       "spi_interface_ctrl_0_SCK": {
         "ports": [
           "spi_interface_ctrl_0/SCK",
@@ -3716,9 +3756,9 @@
         "ports": [
           "xlconstant_0/dout",
           "qpix_carrier_fifo_ct_0/rst",
-          "qpix_carrier_data_ct_0/rst",
           "fifo_generator_0/rst",
-          "spi_interface_ctrl_0/rst"
+          "spi_interface_ctrl_0/rst",
+          "qpix_carrier_data_ct_0/rst"
         ]
       }
     },

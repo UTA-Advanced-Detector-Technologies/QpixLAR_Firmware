@@ -39,6 +39,8 @@ port (
   clk             : in  std_logic;
   rst             : in  std_logic;
   -- Data IO
+  sample_valid     : in  std_logic; -- valid window control from qpix registers
+  force_valid      : in  std_logic; -- valid override from transact register
   Q                : in  std_logic_vector(N_QPIX_PORTS - 1 downto 0);
   qpixCtrlOut      : out std_logic_vector(N_QPIX_PORTS + TIMESTAMP_BITS - 1 downto 0);
   qpixCtrlOutValid : out std_logic;
@@ -98,9 +100,9 @@ begin  -- architecture qpix_carrier_data_ctrl
    begin
       if rising_edge(clk) then
          qpixCtrlOutValid <= '0';
-         -- if trigger = '1' then
+         -- trigger occurs when we detect a rising edge, with appropriate mask and valid conditions
          for i in N_QPIX_PORTS - 1 downto 0 loop
-             trg(i) := qpixPortDataE(i) and qpixMask(i);
+             trg(i) := qpixPortDataE(i) and qpixMask(i) and (sample_valid or force_valid);
          end loop;
          if trg /= qpixDataEmpty then
              qpixCtrlOutValid <= '1';

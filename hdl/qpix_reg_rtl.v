@@ -80,7 +80,10 @@ module qpix_reg_rtl(
     input [31:0] reg_6,
     input [31:0] reg_7,
     input [31:0] reg_8,
-    input [31:0] reg_9
+    input [31:0] reg_9,
+    input [31:0] reg_a,
+
+    output wire sample_valid
     // output [64*32-1:0] reg_ro,
     // input  [64*32-1:0] reg_rw
     );
@@ -187,7 +190,8 @@ module qpix_reg_rtl(
     // Window sampling
     wire [15:0] window_wait;
     wire [31:0] window_width;
-    wire sample_valid;
+    // wire sample_valid;
+    wire deltaT_select;
     
     // Programmable reset
     wire [15:0] reset_width, rst_cal_gap;
@@ -291,8 +295,11 @@ module qpix_reg_rtl(
     assign sample_select =      reg_9[31];
     assign window_wait =        reg_9[16:0];
     
-    // Reg 10 thru 31 not connected
-    
+    // Reg 10 - Programmable sampling control #3
+    assign deltaT_select =      reg_a[0];
+
+    // Reg 11 thru 31 not connected   
+
     // ** R/O registers **
     // Reg 64,65 - trigger timestamp
     // assign reg_ro[ 0 * 32 + 31 :  0 * 32 +  0] = trig_ts[63:32];
@@ -869,17 +876,21 @@ module qpix_reg_rtl(
     
     reg deltaT_synced_0;
     reg deltaT_synced;
-    // reg [15:0] oLVDS_synced;
-    // reg [15:0] oLVDS_synced_0;
+    reg deltaT2_synced_0;
+    reg deltaT2_synced;
+    reg [15:0] oLVDS_synced;
+    reg [15:0] oLVDS_synced_0;
     always @ (posedge clk200)
     begin
         deltaT_synced_0 <= opad_deltaT;
         deltaT_synced <= deltaT_synced_0;
-        // oLVDS_synced_0 <= oLVDS;
-        // oLVDS_synced <= oLVDS_synced_0; // double FF sync into 200MHz domain
+        deltaT2_synced_0 <= opad2_deltaT;
+        deltaT2_synced <= deltaT2_synced_0;
+        oLVDS_synced_0 <= oLVDS;
+        oLVDS_synced <= oLVDS_synced_0; // double FF sync into 200MHz domain
     end
     
-    assign sample_valid = sample_select ? sample_window_valid : deltaT_synced; 
+    assign sample_valid = sample_select ? sample_window_valid : (deltaT_select ? deltaT2_synced : deltaT_synced); 
     
     // genvar i; 
     // generate
