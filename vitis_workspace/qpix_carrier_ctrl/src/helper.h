@@ -27,7 +27,7 @@
 #define CTRL_PLEN 0x4C520010
 
 // total number of reg_0..N qpix registers defined
-#define QPIX_NUM_REGS 9
+#define QPIX_NUM_REGS 10
 
 // define good and packet packets for return types on reg IO
 #define GOOD_PACKET 0xc0decafe

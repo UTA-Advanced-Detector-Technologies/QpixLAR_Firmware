@@ -886,8 +886,8 @@ module qpix_reg_rtl(
         deltaT_synced <= deltaT_synced_0;
         deltaT2_synced_0 <= opad2_deltaT;
         deltaT2_synced <= deltaT2_synced_0;
-        oLVDS_synced_0 <= oLVDS;
-        oLVDS_synced <= oLVDS_synced_0; // double FF sync into 200MHz domain
+//        oLVDS_synced_0 <= oLVDS;
+//        oLVDS_synced <= oLVDS_synced_0; // double FF sync into 200MHz domain
     end
     
     assign sample_valid = sample_select ? sample_window_valid : (deltaT_select ? deltaT2_synced : deltaT_synced); 

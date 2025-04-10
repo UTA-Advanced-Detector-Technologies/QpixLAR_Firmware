@@ -1,4 +1,5 @@
 #include "helper.h"
+#include <xil_printf.h>
 
 u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize)
 {
@@ -19,9 +20,15 @@ u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize)
 
             // make sure we received 3 quadlets, writing to valid qpix reg
             if(TransferSize != 4*3 || qpix_reg > QPIX_NUM_REGS)
+            {
                 TxBuf[1] = BAD_PACKET;
+                xil_printf("bad qpix packet: %08x\r\n", qpix_reg);
+            }
             else{
-                Xil_Out32(TREG_QPIX_ADDR+0x04*qpix_reg, RxBuf[2]);
+                u32 addr = TREG_QPIX_ADDR+0x04*qpix_reg;
+                u32 data = RxBuf[2];
+                xil_printf("sending %08x to addr=%08x\r\n", data, addr);
+                Xil_Out32(addr, data);
             }
 
             TransferSize = 8;
