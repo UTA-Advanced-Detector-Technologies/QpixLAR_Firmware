@@ -57,6 +57,8 @@ entity TransactRegiMap is
 
       force_valid  : out std_logic;
 
+      FPGA_ID      : in  std_logic_vector(1 downto 0);
+
       -- interface to AXI slave module
       addr        : in  std_logic_vector(31 downto 0);
       rdata       : out std_logic_vector(31 downto 0);
@@ -92,6 +94,8 @@ architecture behav of TransactRegiMap is
    signal s_DAC_reg2     : std_logic_vector(15 downto 0);
    signal s_force_valid  : std_logic;
 
+   signal s_FPGA_ID      : std_logic_vector(1 downto 0);
+
 begin
 
    a_reg_addr <= addr(15 downto 0);
@@ -103,6 +107,7 @@ begin
 
          -- defaults
          ack                  <= req;
+
 
          -- assignments
          reg_0 <= s_reg_0;
@@ -124,6 +129,8 @@ begin
          DAC_reg1     <= s_DAC_reg1;
 
          force_valid  <= s_force_valid;
+
+         s_FPGA_ID <= FPGA_ID;
          
          -- pulsed values
          load_DAC1 <= '0';
@@ -266,6 +273,12 @@ begin
                else
                   rdata    <= (others => '0');
                   rdata(0) <= s_force_valid;
+               end if;
+
+            when x"1018" =>
+               if wen = '0' and req = '1' then -- read only
+                  rdata    <= (others => '0');
+                  rdata(1 downto 0) <= s_FPGA_ID;
                end if;
 
             when others =>

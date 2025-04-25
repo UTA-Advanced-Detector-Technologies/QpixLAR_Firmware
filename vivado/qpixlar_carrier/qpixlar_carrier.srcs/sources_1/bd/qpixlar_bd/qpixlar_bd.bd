@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xA4965BF6A1497F56",
+      "boundary_crc": "0x4B9E281443BD936A",
       "device": "xc7z020clg400-1",
       "gen_directory": "../../../../qpixlar_carrier.gen/sources_1/bd/qpixlar_bd",
       "name": "qpixlar_bd",
@@ -38,7 +38,8 @@
       "xlconstant_0": "",
       "spi_interface_ctrl_0": "",
       "xlconcat_1": "",
-      "xlconcat_2": ""
+      "xlconcat_2": "",
+      "xlconstant_1": ""
     },
     "interface_ports": {
       "DDR": {
@@ -413,6 +414,21 @@
       },
       "bLDAC": {
         "direction": "O"
+      },
+      "FPGA_ID": {
+        "direction": "I",
+        "left": "1",
+        "right": "0"
+      },
+      "pad1_clk_bSHDN": {
+        "direction": "O",
+        "left": "0",
+        "right": "0"
+      },
+      "pad2_clk_bSHDN": {
+        "direction": "O",
+        "left": "0",
+        "right": "0"
       }
     },
     "components": {
@@ -2383,6 +2399,11 @@
           "force_valid": {
             "direction": "O"
           },
+          "FPGA_ID": {
+            "direction": "I",
+            "left": "1",
+            "right": "0"
+          },
           "addr": {
             "direction": "I",
             "left": "31",
@@ -3226,6 +3247,13 @@
         "xci_name": "qpixlar_bd_xlconcat_2_0",
         "xci_path": "ip\\qpixlar_bd_xlconcat_2_0\\qpixlar_bd_xlconcat_2_0.xci",
         "inst_hier_path": "xlconcat_2"
+      },
+      "xlconstant_1": {
+        "vlnv": "xilinx.com:ip:xlconstant:1.1",
+        "ip_revision": "9",
+        "xci_name": "qpixlar_bd_xlconstant_1_0",
+        "xci_path": "ip\\qpixlar_bd_xlconstant_1_0\\qpixlar_bd_xlconstant_1_0.xci",
+        "inst_hier_path": "xlconstant_1"
       }
     },
     "interface_nets": {
@@ -3307,6 +3335,12 @@
         "ports": [
           "AxiLiteSlaveSimple_0/wen",
           "TransactRegiMap_0/wen"
+        ]
+      },
+      "FPGA_ID_1": {
+        "ports": [
+          "FPGA_ID",
+          "TransactRegiMap_0/FPGA_ID"
         ]
       },
       "Q_0_1": {
@@ -3544,8 +3578,8 @@
           "processing_system7_0/M_AXI_GP0_ACLK",
           "processing_system7_0/S_AXI_HP0_ACLK",
           "spi_interface_ctrl_0/clk",
-          "TransactRegiMap_0/clk",
-          "qpix_reg_rtl_0/clk"
+          "qpix_reg_rtl_0/clk",
+          "TransactRegiMap_0/clk"
         ]
       },
       "processing_system7_0_FCLK_RESET0_N": {
@@ -3759,6 +3793,13 @@
           "fifo_generator_0/rst",
           "spi_interface_ctrl_0/rst",
           "qpix_carrier_data_ct_0/rst"
+        ]
+      },
+      "xlconstant_1_dout": {
+        "ports": [
+          "xlconstant_1/dout",
+          "pad1_clk_bSHDN",
+          "pad2_clk_bSHDN"
         ]
       }
     },

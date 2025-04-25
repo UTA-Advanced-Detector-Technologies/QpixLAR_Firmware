@@ -112,8 +112,10 @@ set_property IOSTANDARD LVCMOS33 [get_ports opad2_deltaT]
 # #set_property PULLUP true [get_ports i2c0_sda_io]
 
 # from Kevin's Carrier Board Schematic
-# set_property PACKAGE_PIN V7  [get_ports Pad1_ClkbSHDN]
-# set_property PACKAGE_PIN U10 [get_ports Pad2_ClkbSHDN]
+set_property PACKAGE_PIN V7  [get_ports pad1_clk_bSHDN]
+set_property PACKAGE_PIN U10 [get_ports pad2_clk_bSHDN]
+set_property IOSTANDARD LVCMOS33 [get_ports pad1_clk_bSHDN]
+set_property IOSTANDARD LVCMOS33 [get_ports pad2_clk_bSHDN]
 
 # set_property PACKAGE_PIN T15 [get_ports fPAD1_EXT_POR]
 # set_property PACKAGE_PIN W13 [get_ports fPAD2_EXT_POR]
@@ -162,8 +164,10 @@ set_property IOSTANDARD LVCMOS33 [get_ports opad2_deltaT]
 # set_property PACKAGE_PIN Y7 [get_ports ClkSyncOut]
 # set_property PACKAGE_PIN Y6 [get_ports ClkSyncIn]
 
-# set_property PACKAGE_PIN E18 [get_ports FPGA_ID_0]
-# set_property PACKAGE_PIN E19 [get_ports FPGA_ID_1]
+set_property PACKAGE_PIN E18 [get_ports {FPGA_ID[0]}]
+set_property PACKAGE_PIN E19 [get_ports {FPGA_ID[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {FPGA_ID[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {FPGA_ID[1]}]
 
 set_property PACKAGE_PIN L14 [get_ports {SHDN[0]}]
 set_property PACKAGE_PIN M15 [get_ports {SHDN[1]}]
@@ -246,4 +250,5 @@ set_property IOSTANDARD LVCMOS33 [get_ports SCK]
 set_property IOSTANDARD LVCMOS33 [get_ports SDI]
 
 # set_property PACKAGE_PIN F16 [get_ports ExternalClkEnable]
+
 
