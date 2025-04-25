@@ -105,12 +105,16 @@ u32 HandleCmdRequest(u32* RxBuf, u32** TxLoc, u32 TransferSize)
                 TxBuf[1] = BAD_PACKET;
             else{
                 // addrs defined in transactregimap.vhd
-                if(ctrl_cmd == CTRL_SHDN) // SHDN
+                if(ctrl_cmd == CTRL_SHDN)             // SHDN
                     Xil_Out32(TREG_CTRL_ADDR+0x00, RxBuf[2]);
-                else if(ctrl_cmd == CTRL_MASK) // Mask
+                else if(ctrl_cmd == CTRL_MASK)        // Mask
                     Xil_Out32(TREG_CTRL_ADDR+0x04, RxBuf[2]);
-                else if(ctrl_cmd == CTRL_PLEN) // PktLength
+                else if(ctrl_cmd == CTRL_PLEN)        // PktLength
                     Xil_Out32(TREG_CTRL_ADDR+0x08, RxBuf[2]);
+                else if(ctrl_cmd == CTRL_FORCE_VALID) // force_valid
+                    Xil_Out32(TREG_CTRL_ADDR+0x14, RxBuf[2]);
+                else if(ctrl_cmd == CTRL_FPGA_ID)     // readID
+                    TxBuf[1] = Xil_In32(TREG_CTRL_ADDR+0x18);
                 else // error
                     TxBuf[1] = BAD_PACKET;
             }

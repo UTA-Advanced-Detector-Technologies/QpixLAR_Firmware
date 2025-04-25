@@ -22,10 +22,11 @@
 #define CTRL_PACKET 0x4C525443
 
 // special control values to select ctrl registers
-#define CTRL_SHDN 0x4C520000
-#define CTRL_MASK 0x4C520001
-#define CTRL_PLEN 0x4C520010
-
+#define CTRL_SHDN        0x4C520000
+#define CTRL_MASK        0x4C520001
+#define CTRL_PLEN        0x4C520010
+#define CTRL_FPGA_ID     0x4C520011
+#define CTRL_FORCE_VALID 0x4C520100
 // total number of reg_0..N qpix registers defined
 #define QPIX_NUM_REGS 10
 
