@@ -127,6 +127,7 @@ begin
          QpixMask     <= s_QpixMask;
          PacketLength <= s_PacketLength;
          DAC_reg1     <= s_DAC_reg1;
+         DAC_reg2     <= s_DAC_reg2;
 
          force_valid  <= s_force_valid;
 
