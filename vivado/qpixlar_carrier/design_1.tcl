@@ -20,7 +20,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2024.1
+set scripts_vivado_version 2024.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -278,6 +278,9 @@ proc create_root_design { parentCell } {
   set SCK [ create_bd_port -dir O SCK ]
   set bCS [ create_bd_port -dir O -from 1 -to 0 bCS ]
   set bLDAC [ create_bd_port -dir O bLDAC ]
+  set FPGA_ID [ create_bd_port -dir I -from 1 -to 0 FPGA_ID ]
+  set pad1_clk_bSHDN [ create_bd_port -dir O -from 0 -to 0 pad1_clk_bSHDN ]
+  set pad2_clk_bSHDN [ create_bd_port -dir O -from 0 -to 0 pad2_clk_bSHDN ]
 
   # Create instance: processing_system7_0, and set properties
   set processing_system7_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 processing_system7_0 ]
@@ -748,6 +751,9 @@ Reset#Enet 0#Enet 0} \
   # Create instance: xlconcat_2, and set properties
   set xlconcat_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_2 ]
 
+  # Create instance: xlconstant_1, and set properties
+  set xlconstant_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_1 ]
+
   # Create interface connections
   connect_bd_intf_net -intf_net axi_dma_0_M_AXI_S2MM [get_bd_intf_pins axi_dma_0/M_AXI_S2MM] [get_bd_intf_pins axi_mem_intercon/S00_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI [get_bd_intf_pins axi_interconnect_0/M00_AXI] [get_bd_intf_pins AxiLiteSlaveSimple_0/axi]
@@ -760,80 +766,191 @@ Reset#Enet 0#Enet 0} \
   connect_bd_intf_net -intf_net qpix_carrier_fifo_ct_0_S_AXI_0 [get_bd_intf_pins qpix_carrier_fifo_ct_0/S_AXI_0] [get_bd_intf_pins axis_data_fifo_0/S_AXIS]
 
   # Create port connections
-  connect_bd_net -net AxiLiteSlaveSimple_0_addr [get_bd_pins AxiLiteSlaveSimple_0/addr] [get_bd_pins TransactRegiMap_0/addr]
-  connect_bd_net -net AxiLiteSlaveSimple_0_req [get_bd_pins AxiLiteSlaveSimple_0/req] [get_bd_pins TransactRegiMap_0/req]
-  connect_bd_net -net AxiLiteSlaveSimple_0_wdata [get_bd_pins AxiLiteSlaveSimple_0/wdata] [get_bd_pins TransactRegiMap_0/wdata]
-  connect_bd_net -net AxiLiteSlaveSimple_0_wen [get_bd_pins AxiLiteSlaveSimple_0/wen] [get_bd_pins TransactRegiMap_0/wen]
-  connect_bd_net -net Q_0_1 [get_bd_ports Q] [get_bd_pins qpix_carrier_data_ct_0/Q]
-  connect_bd_net -net S00_ARESETN_1 [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins axi_interconnect_0/S00_ARESETN] [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_dma_0/axi_resetn] [get_bd_pins axi_interconnect_0/M01_ARESETN] [get_bd_pins axi_mem_intercon/S00_ARESETN] [get_bd_pins axi_mem_intercon/M00_ARESETN] [get_bd_pins axi_mem_intercon/ARESETN] [get_bd_pins AxiLiteSlaveSimple_0/axi_aresetn] [get_bd_pins axis_data_fifo_0/s_axis_aresetn]
-  connect_bd_net -net TransactRegiMap_0_DAC_reg1 [get_bd_pins TransactRegiMap_0/DAC_reg1] [get_bd_pins xlconcat_2/In0]
-  connect_bd_net -net TransactRegiMap_0_DAC_reg2 [get_bd_pins TransactRegiMap_0/DAC_reg2] [get_bd_pins xlconcat_2/In1]
-  connect_bd_net -net TransactRegiMap_0_PacketLength [get_bd_pins TransactRegiMap_0/PacketLength] [get_bd_pins qpix_carrier_fifo_ct_0/qpixPacketLength]
-  connect_bd_net -net TransactRegiMap_0_QpixMask [get_bd_pins TransactRegiMap_0/QpixMask] [get_bd_pins qpix_carrier_data_ct_0/qpixMask]
-  connect_bd_net -net TransactRegiMap_0_SHDN [get_bd_pins TransactRegiMap_0/SHDN] [get_bd_ports SHDN]
-  connect_bd_net -net TransactRegiMap_0_ack [get_bd_pins TransactRegiMap_0/ack] [get_bd_pins AxiLiteSlaveSimple_0/ack]
-  connect_bd_net -net TransactRegiMap_0_force_valid [get_bd_pins TransactRegiMap_0/force_valid] [get_bd_pins qpix_carrier_data_ct_0/force_valid]
-  connect_bd_net -net TransactRegiMap_0_load_DAC1 [get_bd_pins TransactRegiMap_0/load_DAC1] [get_bd_pins xlconcat_1/In0]
-  connect_bd_net -net TransactRegiMap_0_load_DAC2 [get_bd_pins TransactRegiMap_0/load_DAC2] [get_bd_pins xlconcat_1/In1]
-  connect_bd_net -net TransactRegiMap_0_rdata [get_bd_pins TransactRegiMap_0/rdata] [get_bd_pins AxiLiteSlaveSimple_0/rdata]
-  connect_bd_net -net TransactRegiMap_0_reg_0 [get_bd_pins TransactRegiMap_0/reg_0] [get_bd_pins qpix_reg_rtl_0/reg_0]
-  connect_bd_net -net TransactRegiMap_0_reg_1 [get_bd_pins TransactRegiMap_0/reg_1] [get_bd_pins qpix_reg_rtl_0/reg_1]
-  connect_bd_net -net TransactRegiMap_0_reg_2 [get_bd_pins TransactRegiMap_0/reg_2] [get_bd_pins qpix_reg_rtl_0/reg_2]
-  connect_bd_net -net TransactRegiMap_0_reg_3 [get_bd_pins TransactRegiMap_0/reg_3] [get_bd_pins qpix_reg_rtl_0/reg_3]
-  connect_bd_net -net TransactRegiMap_0_reg_4 [get_bd_pins TransactRegiMap_0/reg_4] [get_bd_pins qpix_reg_rtl_0/reg_4]
-  connect_bd_net -net TransactRegiMap_0_reg_5 [get_bd_pins TransactRegiMap_0/reg_5] [get_bd_pins qpix_reg_rtl_0/reg_5]
-  connect_bd_net -net TransactRegiMap_0_reg_6 [get_bd_pins TransactRegiMap_0/reg_6] [get_bd_pins qpix_reg_rtl_0/reg_6]
-  connect_bd_net -net TransactRegiMap_0_reg_7 [get_bd_pins TransactRegiMap_0/reg_7] [get_bd_pins qpix_reg_rtl_0/reg_7]
-  connect_bd_net -net TransactRegiMap_0_reg_8 [get_bd_pins TransactRegiMap_0/reg_8] [get_bd_pins qpix_reg_rtl_0/reg_8]
-  connect_bd_net -net TransactRegiMap_0_reg_9 [get_bd_pins TransactRegiMap_0/reg_9] [get_bd_pins qpix_reg_rtl_0/reg_9]
-  connect_bd_net -net TransactRegiMap_0_reg_a [get_bd_pins TransactRegiMap_0/reg_a] [get_bd_pins qpix_reg_rtl_0/reg_a]
-  connect_bd_net -net axi_dma_0_s2mm_introut [get_bd_pins axi_dma_0/s2mm_introut] [get_bd_pins processing_system7_0/IRQ_F2P]
-  connect_bd_net -net fifo_generator_0_dout [get_bd_pins fifo_generator_0/dout] [get_bd_pins qpix_carrier_fifo_ct_0/fifo_dout]
-  connect_bd_net -net fifo_generator_0_empty [get_bd_pins fifo_generator_0/empty] [get_bd_pins qpix_carrier_fifo_ct_0/fifo_empty]
-  connect_bd_net -net fifo_generator_0_valid [get_bd_pins fifo_generator_0/valid] [get_bd_pins qpix_carrier_fifo_ct_0/fifo_valid]
-  connect_bd_net -net opad2_DataOut1_0_1 [get_bd_ports opad2_DataOut1] [get_bd_pins qpix_reg_rtl_0/opad2_DataOut1]
-  connect_bd_net -net opad2_DataOut2_0_1 [get_bd_ports opad2_DataOut2] [get_bd_pins qpix_reg_rtl_0/opad2_DataOut2]
-  connect_bd_net -net opad2_deltaT_0_1 [get_bd_ports opad2_deltaT] [get_bd_pins qpix_reg_rtl_0/opad2_deltaT]
-  connect_bd_net -net opad_DataOut1_0_1 [get_bd_ports opad_DataOut1] [get_bd_pins qpix_reg_rtl_0/opad_DataOut1]
-  connect_bd_net -net opad_DataOut2_0_1 [get_bd_ports opad_DataOut2] [get_bd_pins qpix_reg_rtl_0/opad_DataOut2]
-  connect_bd_net -net opad_deltaT_0_1 [get_bd_ports opad_deltaT] [get_bd_pins qpix_reg_rtl_0/opad_deltaT]
-  connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins fifo_generator_0/wr_clk] [get_bd_pins qpix_carrier_data_ct_0/clk] [get_bd_pins qpix_reg_rtl_0/clk200]
-  connect_bd_net -net processing_system7_0_FCLK_CLK1 [get_bd_pins processing_system7_0/FCLK_CLK1] [get_bd_pins axi_mem_intercon/ACLK] [get_bd_pins axi_mem_intercon/S00_ACLK] [get_bd_pins axi_mem_intercon/M00_ACLK] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins axi_dma_0/s_axi_lite_aclk] [get_bd_pins axi_dma_0/m_axi_s2mm_aclk] [get_bd_pins AxiLiteSlaveSimple_0/axi_aclk] [get_bd_pins axis_data_fifo_0/s_axis_aclk] [get_bd_pins qpix_carrier_fifo_ct_0/clk] [get_bd_pins fifo_generator_0/rd_clk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins processing_system7_0/S_AXI_HP0_ACLK] [get_bd_pins spi_interface_ctrl_0/clk] [get_bd_pins TransactRegiMap_0/clk] [get_bd_pins qpix_reg_rtl_0/clk]
-  connect_bd_net -net processing_system7_0_FCLK_RESET0_N [get_bd_pins processing_system7_0/FCLK_RESET0_N] [get_bd_pins proc_sys_reset_0/ext_reset_in]
-  connect_bd_net -net qpix_carrier_data_ct_0_qpixCtrlOut [get_bd_pins qpix_carrier_data_ct_0/qpixCtrlOut] [get_bd_pins fifo_generator_0/din]
-  connect_bd_net -net qpix_carrier_data_ct_0_qpixCtrlOutValid [get_bd_pins qpix_carrier_data_ct_0/qpixCtrlOutValid] [get_bd_pins fifo_generator_0/wr_en]
-  connect_bd_net -net qpix_carrier_fifo_ct_0_qpix_fifo_ren [get_bd_pins qpix_carrier_fifo_ct_0/qpix_fifo_ren] [get_bd_pins fifo_generator_0/rd_en]
-  connect_bd_net -net qpix_reg_rtl_0_opad2_CLK [get_bd_pins qpix_reg_rtl_0/opad2_CLK] [get_bd_ports opad2_CLK]
-  connect_bd_net -net qpix_reg_rtl_0_opad2_CLKin [get_bd_pins qpix_reg_rtl_0/opad2_CLKin] [get_bd_ports opad2_CLKin]
-  connect_bd_net -net qpix_reg_rtl_0_opad2_CLKin2 [get_bd_pins qpix_reg_rtl_0/opad2_CLKin2] [get_bd_ports opad2_CLKin2]
-  connect_bd_net -net qpix_reg_rtl_0_opad2_DataIn [get_bd_pins qpix_reg_rtl_0/opad2_DataIn] [get_bd_ports opad2_DataIn]
-  connect_bd_net -net qpix_reg_rtl_0_opad2_RST_EXT [get_bd_pins qpix_reg_rtl_0/opad2_RST_EXT] [get_bd_ports opad2_RST_EXT]
-  connect_bd_net -net qpix_reg_rtl_0_opad2_cal_control [get_bd_pins qpix_reg_rtl_0/opad2_cal_control] [get_bd_ports opad2_cal_control]
-  connect_bd_net -net qpix_reg_rtl_0_opad2_control [get_bd_pins qpix_reg_rtl_0/opad2_control] [get_bd_ports opad2_control]
-  connect_bd_net -net qpix_reg_rtl_0_opad2_loadData [get_bd_pins qpix_reg_rtl_0/opad2_loadData] [get_bd_ports opad2_loadData]
-  connect_bd_net -net qpix_reg_rtl_0_opad2_selDefData [get_bd_pins qpix_reg_rtl_0/opad2_selDefData] [get_bd_ports opad2_selDefData]
-  connect_bd_net -net qpix_reg_rtl_0_opad2_serialOutCnt [get_bd_pins qpix_reg_rtl_0/opad2_serialOutCnt] [get_bd_ports opad2_serialOutCnt]
-  connect_bd_net -net qpix_reg_rtl_0_opad2_startup [get_bd_pins qpix_reg_rtl_0/opad2_startup] [get_bd_ports opad2_startup]
-  connect_bd_net -net qpix_reg_rtl_0_opad_CLK [get_bd_pins qpix_reg_rtl_0/opad_CLK] [get_bd_ports opad_CLK]
-  connect_bd_net -net qpix_reg_rtl_0_opad_CLKin [get_bd_pins qpix_reg_rtl_0/opad_CLKin] [get_bd_ports opad_CLKin]
-  connect_bd_net -net qpix_reg_rtl_0_opad_CLKin2 [get_bd_pins qpix_reg_rtl_0/opad_CLKin2] [get_bd_ports opad_CLKin2]
-  connect_bd_net -net qpix_reg_rtl_0_opad_DataIn [get_bd_pins qpix_reg_rtl_0/opad_DataIn] [get_bd_ports opad_DataIn]
-  connect_bd_net -net qpix_reg_rtl_0_opad_Ext_POR [get_bd_pins qpix_reg_rtl_0/opad_Ext_POR] [get_bd_ports opad_Ext_POR]
-  connect_bd_net -net qpix_reg_rtl_0_opad_RST_EXT [get_bd_pins qpix_reg_rtl_0/opad_RST_EXT] [get_bd_ports opad_RST_EXT]
-  connect_bd_net -net qpix_reg_rtl_0_opad_cal_control [get_bd_pins qpix_reg_rtl_0/opad_cal_control] [get_bd_ports opad_cal_control]
-  connect_bd_net -net qpix_reg_rtl_0_opad_control [get_bd_pins qpix_reg_rtl_0/opad_control] [get_bd_ports opad_control]
-  connect_bd_net -net qpix_reg_rtl_0_opad_loadData [get_bd_pins qpix_reg_rtl_0/opad_loadData] [get_bd_ports opad_loadData]
-  connect_bd_net -net qpix_reg_rtl_0_opad_selDefData [get_bd_pins qpix_reg_rtl_0/opad_selDefData] [get_bd_ports opad_selDefData]
-  connect_bd_net -net qpix_reg_rtl_0_opad_serialOutCnt [get_bd_pins qpix_reg_rtl_0/opad_serialOutCnt] [get_bd_ports opad_serialOutCnt]
-  connect_bd_net -net qpix_reg_rtl_0_opad_startup [get_bd_pins qpix_reg_rtl_0/opad_startup] [get_bd_ports opad_startup]
-  connect_bd_net -net qpix_reg_rtl_0_sample_valid [get_bd_pins qpix_reg_rtl_0/sample_valid] [get_bd_pins qpix_carrier_data_ct_0/sample_valid]
-  connect_bd_net -net spi_interface_ctrl_0_SCK [get_bd_pins spi_interface_ctrl_0/SCK] [get_bd_ports SCK]
-  connect_bd_net -net spi_interface_ctrl_0_SDI [get_bd_pins spi_interface_ctrl_0/SDI] [get_bd_ports SDI]
-  connect_bd_net -net spi_interface_ctrl_0_bCS [get_bd_pins spi_interface_ctrl_0/bCS] [get_bd_ports bCS]
-  connect_bd_net -net spi_interface_ctrl_0_bLDAC [get_bd_pins spi_interface_ctrl_0/bLDAC] [get_bd_ports bLDAC]
-  connect_bd_net -net xlconcat_1_dout [get_bd_pins xlconcat_1/dout] [get_bd_pins spi_interface_ctrl_0/new_reg]
-  connect_bd_net -net xlconcat_2_dout [get_bd_pins xlconcat_2/dout] [get_bd_pins spi_interface_ctrl_0/spi_data]
-  connect_bd_net -net xlconstant_0_dout [get_bd_pins xlconstant_0/dout] [get_bd_pins qpix_carrier_fifo_ct_0/rst] [get_bd_pins fifo_generator_0/rst] [get_bd_pins spi_interface_ctrl_0/rst] [get_bd_pins qpix_carrier_data_ct_0/rst]
+  connect_bd_net -net AxiLiteSlaveSimple_0_addr  [get_bd_pins AxiLiteSlaveSimple_0/addr] \
+  [get_bd_pins TransactRegiMap_0/addr]
+  connect_bd_net -net AxiLiteSlaveSimple_0_req  [get_bd_pins AxiLiteSlaveSimple_0/req] \
+  [get_bd_pins TransactRegiMap_0/req]
+  connect_bd_net -net AxiLiteSlaveSimple_0_wdata  [get_bd_pins AxiLiteSlaveSimple_0/wdata] \
+  [get_bd_pins TransactRegiMap_0/wdata]
+  connect_bd_net -net AxiLiteSlaveSimple_0_wen  [get_bd_pins AxiLiteSlaveSimple_0/wen] \
+  [get_bd_pins TransactRegiMap_0/wen]
+  connect_bd_net -net FPGA_ID_1  [get_bd_ports FPGA_ID] \
+  [get_bd_pins TransactRegiMap_0/FPGA_ID]
+  connect_bd_net -net Q_0_1  [get_bd_ports Q] \
+  [get_bd_pins qpix_carrier_data_ct_0/Q]
+  connect_bd_net -net S00_ARESETN_1  [get_bd_pins proc_sys_reset_0/peripheral_aresetn] \
+  [get_bd_pins AxiLiteSlaveSimple_0/axi_aresetn] \
+  [get_bd_pins axi_dma_0/axi_resetn] \
+  [get_bd_pins axi_interconnect_0/ARESETN] \
+  [get_bd_pins axi_interconnect_0/S00_ARESETN] \
+  [get_bd_pins axi_interconnect_0/M00_ARESETN] \
+  [get_bd_pins axi_interconnect_0/M01_ARESETN] \
+  [get_bd_pins axi_mem_intercon/ARESETN] \
+  [get_bd_pins axi_mem_intercon/S00_ARESETN] \
+  [get_bd_pins axi_mem_intercon/M00_ARESETN] \
+  [get_bd_pins axis_data_fifo_0/s_axis_aresetn]
+  connect_bd_net -net TransactRegiMap_0_DAC_reg1  [get_bd_pins TransactRegiMap_0/DAC_reg1] \
+  [get_bd_pins xlconcat_2/In0]
+  connect_bd_net -net TransactRegiMap_0_DAC_reg2  [get_bd_pins TransactRegiMap_0/DAC_reg2] \
+  [get_bd_pins xlconcat_2/In1]
+  connect_bd_net -net TransactRegiMap_0_PacketLength  [get_bd_pins TransactRegiMap_0/PacketLength] \
+  [get_bd_pins qpix_carrier_fifo_ct_0/qpixPacketLength]
+  connect_bd_net -net TransactRegiMap_0_QpixMask  [get_bd_pins TransactRegiMap_0/QpixMask] \
+  [get_bd_pins qpix_carrier_data_ct_0/qpixMask]
+  connect_bd_net -net TransactRegiMap_0_SHDN  [get_bd_pins TransactRegiMap_0/SHDN] \
+  [get_bd_ports SHDN]
+  connect_bd_net -net TransactRegiMap_0_ack  [get_bd_pins TransactRegiMap_0/ack] \
+  [get_bd_pins AxiLiteSlaveSimple_0/ack]
+  connect_bd_net -net TransactRegiMap_0_force_valid  [get_bd_pins TransactRegiMap_0/force_valid] \
+  [get_bd_pins qpix_carrier_data_ct_0/force_valid]
+  connect_bd_net -net TransactRegiMap_0_load_DAC1  [get_bd_pins TransactRegiMap_0/load_DAC1] \
+  [get_bd_pins xlconcat_1/In0]
+  connect_bd_net -net TransactRegiMap_0_load_DAC2  [get_bd_pins TransactRegiMap_0/load_DAC2] \
+  [get_bd_pins xlconcat_1/In1]
+  connect_bd_net -net TransactRegiMap_0_rdata  [get_bd_pins TransactRegiMap_0/rdata] \
+  [get_bd_pins AxiLiteSlaveSimple_0/rdata]
+  connect_bd_net -net TransactRegiMap_0_reg_0  [get_bd_pins TransactRegiMap_0/reg_0] \
+  [get_bd_pins qpix_reg_rtl_0/reg_0]
+  connect_bd_net -net TransactRegiMap_0_reg_1  [get_bd_pins TransactRegiMap_0/reg_1] \
+  [get_bd_pins qpix_reg_rtl_0/reg_1]
+  connect_bd_net -net TransactRegiMap_0_reg_2  [get_bd_pins TransactRegiMap_0/reg_2] \
+  [get_bd_pins qpix_reg_rtl_0/reg_2]
+  connect_bd_net -net TransactRegiMap_0_reg_3  [get_bd_pins TransactRegiMap_0/reg_3] \
+  [get_bd_pins qpix_reg_rtl_0/reg_3]
+  connect_bd_net -net TransactRegiMap_0_reg_4  [get_bd_pins TransactRegiMap_0/reg_4] \
+  [get_bd_pins qpix_reg_rtl_0/reg_4]
+  connect_bd_net -net TransactRegiMap_0_reg_5  [get_bd_pins TransactRegiMap_0/reg_5] \
+  [get_bd_pins qpix_reg_rtl_0/reg_5]
+  connect_bd_net -net TransactRegiMap_0_reg_6  [get_bd_pins TransactRegiMap_0/reg_6] \
+  [get_bd_pins qpix_reg_rtl_0/reg_6]
+  connect_bd_net -net TransactRegiMap_0_reg_7  [get_bd_pins TransactRegiMap_0/reg_7] \
+  [get_bd_pins qpix_reg_rtl_0/reg_7]
+  connect_bd_net -net TransactRegiMap_0_reg_8  [get_bd_pins TransactRegiMap_0/reg_8] \
+  [get_bd_pins qpix_reg_rtl_0/reg_8]
+  connect_bd_net -net TransactRegiMap_0_reg_9  [get_bd_pins TransactRegiMap_0/reg_9] \
+  [get_bd_pins qpix_reg_rtl_0/reg_9]
+  connect_bd_net -net TransactRegiMap_0_reg_a  [get_bd_pins TransactRegiMap_0/reg_a] \
+  [get_bd_pins qpix_reg_rtl_0/reg_a]
+  connect_bd_net -net axi_dma_0_s2mm_introut  [get_bd_pins axi_dma_0/s2mm_introut] \
+  [get_bd_pins processing_system7_0/IRQ_F2P]
+  connect_bd_net -net fifo_generator_0_dout  [get_bd_pins fifo_generator_0/dout] \
+  [get_bd_pins qpix_carrier_fifo_ct_0/fifo_dout]
+  connect_bd_net -net fifo_generator_0_empty  [get_bd_pins fifo_generator_0/empty] \
+  [get_bd_pins qpix_carrier_fifo_ct_0/fifo_empty]
+  connect_bd_net -net fifo_generator_0_valid  [get_bd_pins fifo_generator_0/valid] \
+  [get_bd_pins qpix_carrier_fifo_ct_0/fifo_valid]
+  connect_bd_net -net opad2_DataOut1_0_1  [get_bd_ports opad2_DataOut1] \
+  [get_bd_pins qpix_reg_rtl_0/opad2_DataOut1]
+  connect_bd_net -net opad2_DataOut2_0_1  [get_bd_ports opad2_DataOut2] \
+  [get_bd_pins qpix_reg_rtl_0/opad2_DataOut2]
+  connect_bd_net -net opad2_deltaT_0_1  [get_bd_ports opad2_deltaT] \
+  [get_bd_pins qpix_reg_rtl_0/opad2_deltaT]
+  connect_bd_net -net opad_DataOut1_0_1  [get_bd_ports opad_DataOut1] \
+  [get_bd_pins qpix_reg_rtl_0/opad_DataOut1]
+  connect_bd_net -net opad_DataOut2_0_1  [get_bd_ports opad_DataOut2] \
+  [get_bd_pins qpix_reg_rtl_0/opad_DataOut2]
+  connect_bd_net -net opad_deltaT_0_1  [get_bd_ports opad_deltaT] \
+  [get_bd_pins qpix_reg_rtl_0/opad_deltaT]
+  connect_bd_net -net processing_system7_0_FCLK_CLK0  [get_bd_pins processing_system7_0/FCLK_CLK0] \
+  [get_bd_pins qpix_reg_rtl_0/clk200] \
+  [get_bd_pins qpix_carrier_data_ct_0/clk] \
+  [get_bd_pins fifo_generator_0/wr_clk]
+  connect_bd_net -net processing_system7_0_FCLK_CLK1  [get_bd_pins processing_system7_0/FCLK_CLK1] \
+  [get_bd_pins AxiLiteSlaveSimple_0/axi_aclk] \
+  [get_bd_pins qpix_carrier_fifo_ct_0/clk] \
+  [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] \
+  [get_bd_pins processing_system7_0/S_AXI_HP0_ACLK] \
+  [get_bd_pins spi_interface_ctrl_0/clk] \
+  [get_bd_pins qpix_reg_rtl_0/clk] \
+  [get_bd_pins TransactRegiMap_0/clk] \
+  [get_bd_pins axi_dma_0/s_axi_lite_aclk] \
+  [get_bd_pins axi_dma_0/m_axi_s2mm_aclk] \
+  [get_bd_pins axi_interconnect_0/ACLK] \
+  [get_bd_pins axi_interconnect_0/S00_ACLK] \
+  [get_bd_pins axi_interconnect_0/M00_ACLK] \
+  [get_bd_pins axi_interconnect_0/M01_ACLK] \
+  [get_bd_pins axi_mem_intercon/ACLK] \
+  [get_bd_pins axi_mem_intercon/S00_ACLK] \
+  [get_bd_pins axi_mem_intercon/M00_ACLK] \
+  [get_bd_pins axis_data_fifo_0/s_axis_aclk] \
+  [get_bd_pins fifo_generator_0/rd_clk] \
+  [get_bd_pins proc_sys_reset_0/slowest_sync_clk]
+  connect_bd_net -net processing_system7_0_FCLK_RESET0_N  [get_bd_pins processing_system7_0/FCLK_RESET0_N] \
+  [get_bd_pins proc_sys_reset_0/ext_reset_in]
+  connect_bd_net -net qpix_carrier_data_ct_0_qpixCtrlOut  [get_bd_pins qpix_carrier_data_ct_0/qpixCtrlOut] \
+  [get_bd_pins fifo_generator_0/din]
+  connect_bd_net -net qpix_carrier_data_ct_0_qpixCtrlOutValid  [get_bd_pins qpix_carrier_data_ct_0/qpixCtrlOutValid] \
+  [get_bd_pins fifo_generator_0/wr_en]
+  connect_bd_net -net qpix_carrier_fifo_ct_0_qpix_fifo_ren  [get_bd_pins qpix_carrier_fifo_ct_0/qpix_fifo_ren] \
+  [get_bd_pins fifo_generator_0/rd_en]
+  connect_bd_net -net qpix_reg_rtl_0_opad2_CLK  [get_bd_pins qpix_reg_rtl_0/opad2_CLK] \
+  [get_bd_ports opad2_CLK]
+  connect_bd_net -net qpix_reg_rtl_0_opad2_CLKin  [get_bd_pins qpix_reg_rtl_0/opad2_CLKin] \
+  [get_bd_ports opad2_CLKin]
+  connect_bd_net -net qpix_reg_rtl_0_opad2_CLKin2  [get_bd_pins qpix_reg_rtl_0/opad2_CLKin2] \
+  [get_bd_ports opad2_CLKin2]
+  connect_bd_net -net qpix_reg_rtl_0_opad2_DataIn  [get_bd_pins qpix_reg_rtl_0/opad2_DataIn] \
+  [get_bd_ports opad2_DataIn]
+  connect_bd_net -net qpix_reg_rtl_0_opad2_RST_EXT  [get_bd_pins qpix_reg_rtl_0/opad2_RST_EXT] \
+  [get_bd_ports opad2_RST_EXT]
+  connect_bd_net -net qpix_reg_rtl_0_opad2_cal_control  [get_bd_pins qpix_reg_rtl_0/opad2_cal_control] \
+  [get_bd_ports opad2_cal_control]
+  connect_bd_net -net qpix_reg_rtl_0_opad2_control  [get_bd_pins qpix_reg_rtl_0/opad2_control] \
+  [get_bd_ports opad2_control]
+  connect_bd_net -net qpix_reg_rtl_0_opad2_loadData  [get_bd_pins qpix_reg_rtl_0/opad2_loadData] \
+  [get_bd_ports opad2_loadData]
+  connect_bd_net -net qpix_reg_rtl_0_opad2_selDefData  [get_bd_pins qpix_reg_rtl_0/opad2_selDefData] \
+  [get_bd_ports opad2_selDefData]
+  connect_bd_net -net qpix_reg_rtl_0_opad2_serialOutCnt  [get_bd_pins qpix_reg_rtl_0/opad2_serialOutCnt] \
+  [get_bd_ports opad2_serialOutCnt]
+  connect_bd_net -net qpix_reg_rtl_0_opad2_startup  [get_bd_pins qpix_reg_rtl_0/opad2_startup] \
+  [get_bd_ports opad2_startup]
+  connect_bd_net -net qpix_reg_rtl_0_opad_CLK  [get_bd_pins qpix_reg_rtl_0/opad_CLK] \
+  [get_bd_ports opad_CLK]
+  connect_bd_net -net qpix_reg_rtl_0_opad_CLKin  [get_bd_pins qpix_reg_rtl_0/opad_CLKin] \
+  [get_bd_ports opad_CLKin]
+  connect_bd_net -net qpix_reg_rtl_0_opad_CLKin2  [get_bd_pins qpix_reg_rtl_0/opad_CLKin2] \
+  [get_bd_ports opad_CLKin2]
+  connect_bd_net -net qpix_reg_rtl_0_opad_DataIn  [get_bd_pins qpix_reg_rtl_0/opad_DataIn] \
+  [get_bd_ports opad_DataIn]
+  connect_bd_net -net qpix_reg_rtl_0_opad_Ext_POR  [get_bd_pins qpix_reg_rtl_0/opad_Ext_POR] \
+  [get_bd_ports opad_Ext_POR]
+  connect_bd_net -net qpix_reg_rtl_0_opad_RST_EXT  [get_bd_pins qpix_reg_rtl_0/opad_RST_EXT] \
+  [get_bd_ports opad_RST_EXT]
+  connect_bd_net -net qpix_reg_rtl_0_opad_cal_control  [get_bd_pins qpix_reg_rtl_0/opad_cal_control] \
+  [get_bd_ports opad_cal_control]
+  connect_bd_net -net qpix_reg_rtl_0_opad_control  [get_bd_pins qpix_reg_rtl_0/opad_control] \
+  [get_bd_ports opad_control]
+  connect_bd_net -net qpix_reg_rtl_0_opad_loadData  [get_bd_pins qpix_reg_rtl_0/opad_loadData] \
+  [get_bd_ports opad_loadData]
+  connect_bd_net -net qpix_reg_rtl_0_opad_selDefData  [get_bd_pins qpix_reg_rtl_0/opad_selDefData] \
+  [get_bd_ports opad_selDefData]
+  connect_bd_net -net qpix_reg_rtl_0_opad_serialOutCnt  [get_bd_pins qpix_reg_rtl_0/opad_serialOutCnt] \
+  [get_bd_ports opad_serialOutCnt]
+  connect_bd_net -net qpix_reg_rtl_0_opad_startup  [get_bd_pins qpix_reg_rtl_0/opad_startup] \
+  [get_bd_ports opad_startup]
+  connect_bd_net -net qpix_reg_rtl_0_sample_valid  [get_bd_pins qpix_reg_rtl_0/sample_valid] \
+  [get_bd_pins qpix_carrier_data_ct_0/sample_valid]
+  connect_bd_net -net spi_interface_ctrl_0_SCK  [get_bd_pins spi_interface_ctrl_0/SCK] \
+  [get_bd_ports SCK]
+  connect_bd_net -net spi_interface_ctrl_0_SDI  [get_bd_pins spi_interface_ctrl_0/SDI] \
+  [get_bd_ports SDI]
+  connect_bd_net -net spi_interface_ctrl_0_bCS  [get_bd_pins spi_interface_ctrl_0/bCS] \
+  [get_bd_ports bCS]
+  connect_bd_net -net spi_interface_ctrl_0_bLDAC  [get_bd_pins spi_interface_ctrl_0/bLDAC] \
+  [get_bd_ports bLDAC]
+  connect_bd_net -net xlconcat_1_dout  [get_bd_pins xlconcat_1/dout] \
+  [get_bd_pins spi_interface_ctrl_0/new_reg]
+  connect_bd_net -net xlconcat_2_dout  [get_bd_pins xlconcat_2/dout] \
+  [get_bd_pins spi_interface_ctrl_0/spi_data]
+  connect_bd_net -net xlconstant_0_dout  [get_bd_pins xlconstant_0/dout] \
+  [get_bd_pins qpix_carrier_fifo_ct_0/rst] \
+  [get_bd_pins spi_interface_ctrl_0/rst] \
+  [get_bd_pins qpix_carrier_data_ct_0/rst] \
+  [get_bd_pins fifo_generator_0/rst]
+  connect_bd_net -net xlconstant_1_dout  [get_bd_pins xlconstant_1/dout] \
+  [get_bd_ports pad1_clk_bSHDN] \
+  [get_bd_ports pad2_clk_bSHDN]
 
   # Create address segments
   assign_bd_address -offset 0x40000000 -range 0x00004000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs AxiLiteSlaveSimple_0/axi/reg0] -force
