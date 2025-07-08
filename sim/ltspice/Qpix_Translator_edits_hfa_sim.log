@@ -1,0 +1,26 @@
+Circuit: * C:\Users\keefe\dev\QpixLAR_Firmware\sim\ltspice\Qpix_Translator_edits_hfa_sim.asc
+
+Warning: Multiple definitions of model "2scr375p" Type: BJT
+Warning: Multiple definitions of model "bc857b" Type: BJT
+Warning: Multiple definitions of model "bc847c" Type: BJT
+Warning: Multiple definitions of model "bc847b" Type: BJT
+Direct Newton iteration for .op point succeeded.
+
+Date: Wed Apr 30 19:06:54 2025
+Total elapsed time: 0.329 seconds.
+
+tnom = 27
+temp = 27
+method = modified trap
+totiter = 2132
+traniter = 2112
+tranpoints = 1057
+accept = 1053
+rejected = 4
+matrix size = 43
+fillins = 30
+solver = Normal
+Avg thread counts: 4.5/7.9/8.0/4.5
+Matrix Compiler1: 4.56 KB object code size  1.1/0.4/[0.3]
+Matrix Compiler2: off  [0.3]/0.5/0.9
+

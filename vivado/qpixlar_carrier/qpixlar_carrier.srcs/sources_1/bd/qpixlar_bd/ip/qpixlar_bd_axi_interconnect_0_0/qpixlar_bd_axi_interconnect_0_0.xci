@@ -4,7 +4,7 @@
     "xci_name": "qpixlar_bd_axi_interconnect_0_0",
     "cell_name": "axi_interconnect_0",
     "component_reference": "xilinx.com:ip:axi_interconnect:2.1",
-    "ip_revision": "32",
+    "ip_revision": "34",
     "gen_directory": "../../../../../../qpixlar_carrier.gen/sources_1/bd/qpixlar_bd/ip/qpixlar_bd_axi_interconnect_0_0",
     "parameters": {
       "component_parameters": {
@@ -340,12 +340,12 @@
       },
       "runtime_parameters": {
         "IPCONTEXT": [ { "value": "IP_Integrator_AppCore" } ],
-        "IPREVISION": [ { "value": "32" } ],
+        "IPREVISION": [ { "value": "34" } ],
         "MANAGED": [ { "value": "TRUE" } ],
         "OUTPUTDIR": [ { "value": "../../../../../../qpixlar_carrier.gen/sources_1/bd/qpixlar_bd/ip/qpixlar_bd_axi_interconnect_0_0" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],
         "SHAREDDIR": [ { "value": "../../ipshared" } ],
-        "SWVERSION": [ { "value": "2024.1" } ],
+        "SWVERSION": [ { "value": "2024.2" } ],
         "SYNTHESISFLOW": [ { "value": "GLOBAL" } ]
       }
     }

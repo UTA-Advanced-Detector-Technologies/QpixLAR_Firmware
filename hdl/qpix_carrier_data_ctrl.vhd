@@ -82,10 +82,13 @@ begin  -- architecture qpix_carrier_data_ctrl
    -- edge detector on the QPIX data
    QPIX_ANALOG_IN_GEN : for i in 0 to N_QPIX_PORTS-1 generate
       QPIX_PulseEdge_U : entity work.EdgeDetector
+         generic map(
+            N_SYNC_G => 1
+         )
          port map(
             clk    => clk,
             rst    => rst,
-            input  => Q(i),
+            input  => not Q(i), -- change polarity here
             output => qpixPortDataE(i)
          );
    end generate QPIX_ANALOG_IN_GEN;

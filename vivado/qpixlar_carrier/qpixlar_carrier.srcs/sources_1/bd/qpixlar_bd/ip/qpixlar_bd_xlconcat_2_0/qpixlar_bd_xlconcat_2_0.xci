@@ -293,7 +293,7 @@
         "OUTPUTDIR": [ { "value": "../../../../../../qpixlar_carrier.gen/sources_1/bd/qpixlar_bd/ip/qpixlar_bd_xlconcat_2_0" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],
         "SHAREDDIR": [ { "value": "../../ipshared" } ],
-        "SWVERSION": [ { "value": "2024.1" } ],
+        "SWVERSION": [ { "value": "2024.2" } ],
         "SYNTHESISFLOW": [ { "value": "GLOBAL" } ]
       }
     },

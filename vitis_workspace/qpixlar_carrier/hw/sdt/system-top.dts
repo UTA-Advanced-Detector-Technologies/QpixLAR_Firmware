@@ -7,6 +7,7 @@
 	compatible = "xlnx,mys-7z020";
 	device_id = "7z020";
 	slrcount = <1>;
+	family = "Zynq";
 	ps7_qspi_linear_0_memory: memory@fc000000 {
 		compatible = "xlnx,ps7-qspi-linear-1.00.a-memory";
 		xlnx,ip-name = "ps7_qspi_linear";

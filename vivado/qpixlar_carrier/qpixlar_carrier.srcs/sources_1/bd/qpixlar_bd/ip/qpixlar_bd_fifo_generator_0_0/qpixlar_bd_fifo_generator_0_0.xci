@@ -4,7 +4,7 @@
     "xci_name": "qpixlar_bd_fifo_generator_0_0",
     "cell_name": "fifo_generator_0",
     "component_reference": "xilinx.com:ip:fifo_generator:13.2",
-    "ip_revision": "10",
+    "ip_revision": "11",
     "gen_directory": "../../../../../../qpixlar_carrier.gen/sources_1/bd/qpixlar_bd/ip/qpixlar_bd_fifo_generator_0_0",
     "parameters": {
       "component_parameters": {
@@ -397,12 +397,12 @@
       },
       "runtime_parameters": {
         "IPCONTEXT": [ { "value": "IP_Integrator" } ],
-        "IPREVISION": [ { "value": "10" } ],
+        "IPREVISION": [ { "value": "11" } ],
         "MANAGED": [ { "value": "TRUE" } ],
         "OUTPUTDIR": [ { "value": "../../../../../../qpixlar_carrier.gen/sources_1/bd/qpixlar_bd/ip/qpixlar_bd_fifo_generator_0_0" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],
         "SHAREDDIR": [ { "value": "../../ipshared" } ],
-        "SWVERSION": [ { "value": "2024.1" } ],
+        "SWVERSION": [ { "value": "2024.2" } ],
         "SYNTHESISFLOW": [ { "value": "GLOBAL" } ]
       }
     },

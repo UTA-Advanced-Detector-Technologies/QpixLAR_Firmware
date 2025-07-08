@@ -4,7 +4,7 @@
     "xci_name": "qpixlar_bd_proc_sys_reset_0_0",
     "cell_name": "proc_sys_reset_0",
     "component_reference": "xilinx.com:ip:proc_sys_reset:5.0",
-    "ip_revision": "15",
+    "ip_revision": "16",
     "gen_directory": "../../../../../../qpixlar_carrier.gen/sources_1/bd/qpixlar_bd/ip/qpixlar_bd_proc_sys_reset_0_0",
     "parameters": {
       "component_parameters": {
@@ -47,12 +47,12 @@
       },
       "runtime_parameters": {
         "IPCONTEXT": [ { "value": "IP_Integrator" } ],
-        "IPREVISION": [ { "value": "15" } ],
+        "IPREVISION": [ { "value": "16" } ],
         "MANAGED": [ { "value": "TRUE" } ],
         "OUTPUTDIR": [ { "value": "../../../../../../qpixlar_carrier.gen/sources_1/bd/qpixlar_bd/ip/qpixlar_bd_proc_sys_reset_0_0" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],
         "SHAREDDIR": [ { "value": "../../ipshared" } ],
-        "SWVERSION": [ { "value": "2024.1" } ],
+        "SWVERSION": [ { "value": "2024.2" } ],
         "SYNTHESISFLOW": [ { "value": "GLOBAL" } ]
       }
     },
